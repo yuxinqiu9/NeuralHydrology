@@ -1,0 +1,250 @@
+/* =========================
+   Layout spacing
+   ========================= */
+.reveal .slides {
+  margin-top: 64px;
+  margin-bottom: 56px;
+}
+
+.reveal {
+  font-size: 30px;
+}
+
+/* =========================
+   Top navigation header
+   ========================= */
+#top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(8px);
+
+  z-index: 9999;
+}
+
+#top-nav.is-hidden {
+  display: none;
+}
+
+/* Center nav occupies full header width */
+#top-nav .nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: space-evenly; /* evenly distribute links AND separators */
+  align-items: center;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+}
+
+/* Links */
+#top-nav a {
+  text-decoration: none;
+  color: #222;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+
+  line-height: 1;
+  font-size: 16px;
+  font-weight: 600;
+
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+#top-nav a:hover {
+  background: rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+#top-nav a.active {
+  color: #0a58ca;
+  background: rgba(10, 88, 202, 0.12);
+  border-color: rgba(10, 88, 202, 0.28);
+  font-weight: 800;
+}
+
+/* Separator centered between items */
+#top-nav .sep {
+  opacity: 0.35;
+  font-size: 16px;
+  user-select: none;
+  padding: 0 18px; /* make it visually centered between words */
+}
+
+/* =========================
+   Bottom footer
+   ========================= */
+#slide-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 2px 16px; /* small vertical padding */
+  background: rgba(255, 255, 255, 0.94);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(8px);
+
+  z-index: 9999;
+}
+
+#slide-footer.is-hidden {
+  display: none;
+}
+
+#slide-footer .left,
+#slide-footer .center,
+#slide-footer .right {
+  font-size: 20px;
+  line-height: 1; /* reduce vertical whitespace */
+  white-space: nowrap;
+  color: rgba(0, 0, 0, 0.78);
+}
+
+#slide-footer .center {
+  opacity: 0.9;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+}
+
+#slide-footer .right {
+  text-align: right;
+}
+
+/* Footer logo */
+#slide-footer .footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+#slide-footer .footer-logo img {
+  height: 50px; /* adjust as needed */
+  width: auto;
+  display: block;
+}
+
+/* =========================
+   Slide number in footer (RIGHT)
+   ========================= */
+.reveal .slide-number {
+  position: fixed !important;
+  right: 16px;
+  bottom: 16px;          /* inside the footer band */
+  font-size: 20px !important;
+  line-height: 1.5 !important;
+
+  background: none !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  color: rgba(0, 0, 0, 0.65) !important;
+  z-index: 10000;
+}
+
+/* Optional title slide polish */
+.reveal .title {
+  letter-spacing: 0.2px;
+}
+/* =========================
+   Global font: Calibri
+   ========================= */
+
+.reveal,
+.reveal {
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+}
+
+.reveal * {
+  font-family: inherit;
+}
+
+/* =========================
+   Custom cover slide (left text, right image)
+   ========================= */
+
+
+.cover-slide h2 {
+  display: none;
+}
+
+
+.cover-left {
+  text-align: left;
+  padding-right: 0px;
+}
+
+
+.cover-title {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.05;
+  margin-bottom: 30px;
+}
+
+
+.cover-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  opacity: 0.9;
+  margin-bottom: 300px;
+}
+
+
+.cover-meta {
+  font-size: 20px;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.cover-meta div {
+  margin: 6px 0;
+}
+
+
+/* =========================
+   Cover image: FULL BLEED (max fill)
+   ========================= */
+
+.cover-right {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;       
+}
+
+ 
+.cover-img {
+  position: relative;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;          
+  object-position: center;    
+
+  border-radius: 0;
+  box-shadow: none;
+}
+
+
+
+

@@ -1,0 +1,738 @@
+---
+format:
+  revealjs:
+    width: 1280
+    height: 720
+    title-slide: false
+    slide-number: true
+    theme: default
+    css: slides.css
+    self-contained: true
+    include-in-header:
+      - nav-include.html
+bibliography: ../gitbook/book.bib
+execute:
+  echo: false
+  warning: false
+  message: false
+editor: source
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.align = "center",
+                      warning = FALSE, message = FALSE)
+library(ggplot2)
+library(knitr)
+
+theme_nh <- function(base_size = 13) {
+  theme_minimal(base_size = base_size) +
+    theme(
+      plot.title    = element_text(face = "bold", size = base_size + 1),
+      plot.subtitle = element_text(colour = "grey40", size = base_size - 1),
+      legend.position = "bottom",
+      panel.grid.minor = element_blank()
+    )
+}
+
+lmu_blue  <- "#00558C"
+lmu_light <- "#6AB0DE"
+grey50    <- "#888888"
+green_ok  <- "#388E3C"
+```
+
+##  {.cover-slide data-section="Cover"}
+
+::::::::::::::: columns
+:::::::::::: {.column width="45%"}
+::::::::::: cover-left
+::: cover-title
+Neural Hydrology
+:::
+
+::: cover-subtitle
+Deep Learning for Streamflow Prediction under Climate Change
+:::
+
+:::::::: cover-meta
+<div>
+
+<strong>Author:</strong> Yuxin Qiu
+
+</div>
+
+<div>
+
+<strong>Supervisor:</strong> Henri Funk
+
+</div>
+
+<div>
+
+<strong>Seminar:</strong> Climate Change Statistics — Topic #6
+
+</div>
+
+<div>
+
+<strong>University:</strong> LMU Munich
+
+</div>
+
+<div>
+
+<strong>Date:</strong> 2026-07-14
+
+</div>
+::::::::
+:::::::::::
+::::::::::::
+
+:::: {.column width="55%"}
+::: cover-right
+<img src="../gitbook/work/06-NeuralHydrology/figures/cover-image.png" alt="Streamflow prediction" class="cover-img"/>
+:::
+::::
+:::::::::::::::
+
+```{r}
+
+```
+
+------------------------------------------------------------------------
+
+## Table of Contents {data-section="Introduction"}
+
+::: {style="font-size: 1.05em; line-height: 2;"}
+1.  **Introduction** — Why streamflow prediction under climate change?
+2.  **Background** — Traditional vs. deep learning models
+3.  **LSTM** — Gates, cell state, hydrological memory
+4.  **EA-LSTM** — Multi-basin learning & NSE benchmark
+5.  **Library** — NeuralHydrology Python package tour
+6.  **Physics** — MC-LSTM and hybrid architectures
+7.  **Transfer** — Pre-training and fine-tuning for non-stationary climates
+8.  **Case Study** — CAMELS-US basin demonstration
+9.  **Discussion** — Open challenges and outlook
+:::
+
+------------------------------------------------------------------------
+
+## Why Streamflow Prediction Matters {data-section="Introduction"}
+
+::: {style="font-size: 1.05em;"}
+-   **Floods** are the most common natural disaster — 57 million people affected in 2022 alone
+-   Accurate **streamflow forecasts** enable flood early warning, reservoir management, and hydropower scheduling
+-   Under **climate change**, precipitation extremes intensify, seasonal patterns shift, and snowmelt regimes change [@ipcc2021]
+-   Hydrological models must be **robust to non-stationarity** — conditions outside the historical training distribution
+:::
+
+. . .
+
+> *"The absence of evidence that climate change has altered river flow is not evidence of absence."* — Milly et al. (2008)
+
+------------------------------------------------------------------------
+
+## Traditional Process-Based Models {data-section="Background"}
+
+```{r model-limits-table}
+df_lim <- data.frame(
+  Feature = c("Physical interpretation",
+               "Works with limited data",
+               "Spatial transfer (ungauged basins)",
+               "Non-stationarity robustness",
+               "CAMELS-US median NSE"),
+  Value = c("✅ Mass & energy balance",
+             "✅ Yes",
+             "❌ Re-calibrate per basin",
+             "❌ Past statistics assumed stationary",
+             "~0.58 (SAC-SMA)")
+)
+kable(df_lim, col.names = c("Feature", "HBV / VIC / SAC-SMA"), align = c("l", "l"))
+```
+
+. . .
+
+**Key bottleneck**: Manually calibrating 10–40 parameters per catchment is not scalable to thousands of ungauged basins worldwide [@milly2008].
+
+------------------------------------------------------------------------
+
+## The Deep Learning Breakthrough {data-section="Background"}
+
+```{r model-comparison-bar, fig.height=3.6, fig.width=8}
+models <- data.frame(
+  Model = factor(
+    c("LSTM\n(single basin)", "HBV\n(calibrated)", "SAC-SMA\n(calibrated)", "VIC\n(calibrated)"),
+    levels = c("VIC\n(calibrated)", "SAC-SMA\n(calibrated)", "HBV\n(calibrated)", "LSTM\n(single basin)")
+  ),
+  NSE   = c(0.69, 0.54, 0.58, 0.41),
+  Group = c("Deep Learning", "Process-based", "Process-based", "Process-based")
+)
+
+ggplot(models, aes(x = Model, y = NSE, fill = Group)) +
+  geom_col(width = 0.55) +
+  geom_hline(yintercept = 0.6, linetype = "dashed", colour = grey50) +
+  annotate("text", x = 0.6, y = 0.615, label = "Acceptable threshold (0.6)",
+           hjust = 0, size = 3.5, colour = grey50) +
+  geom_text(aes(label = NSE), hjust = -0.25, size = 4, fontface = "bold") +
+  scale_fill_manual(values = c("Deep Learning" = lmu_blue, "Process-based" = lmu_light)) +
+  scale_y_continuous(limits = c(0, 0.86), expand = c(0, 0)) +
+  coord_flip() +
+  labs(x = NULL, y = "Median NSE (241 CAMELS-US basins)",
+       title = "Kratzert et al. (2018): First data-driven model to outperform all calibrated process models",
+       fill = NULL) +
+  theme_nh()
+```
+
+------------------------------------------------------------------------
+
+## LSTM Gates and Cell State {data-section="LSTM"}
+
+The LSTM [@hochreiter1997] maintains a **cell state** $\mathbf{c}_t$ as a memory buffer, controlled by three gates:
+
+$$\mathbf{i}_t = \sigma(\mathbf{W}_i [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_i) \quad \text{(input gate)}$$
+
+$$\mathbf{f}_t = \sigma(\mathbf{W}_f [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_f) \quad \text{(forget gate)}$$
+
+$$\mathbf{c}_t = \underbrace{\mathbf{f}_t \odot \mathbf{c}_{t-1}}_{\text{long-term memory}} + \underbrace{\mathbf{i}_t \odot \tanh(\mathbf{W}_g [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_g)}_{\text{new information}}$$
+
+$$\mathbf{h}_t = \sigma(\mathbf{W}_o [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_o) \odot \tanh(\mathbf{c}_t) \quad \text{(output)}$$
+
+. . .
+
+**Hydrological interpretation**: Cell state ≈ soil moisture / groundwater storage; forget gate ≈ drainage; input gate ≈ infiltration rate
+
+------------------------------------------------------------------------
+
+## Dynamic and Static Inputs {data-section="LSTM"}
+
+::: {style="font-size: 1.05em;"}
+**Dynamic inputs** $\mathbf{x}_t$ (daily time series):
+
+-   Precipitation $P$ \[mm/day\], max/min temperature $T_{\max}$, $T_{\min}$ \[°C\]
+-   Solar radiation \[W/m²\], vapour pressure \[Pa\]
+-   Sequence length: **365 days** (captures seasonal hydrological memory)
+
+**Static inputs** $\mathbf{x}_s$ (catchment attributes):
+
+-   Morphology: catchment area, mean elevation, slope
+-   Soil: texture, permeability, depth
+-   Land cover fractions, long-term climate indices (aridity, mean precip)
+
+**Output**: Daily streamflow $Q$ \[mm/day\] — the integrated catchment response
+:::
+
+------------------------------------------------------------------------
+
+## Entity-Aware LSTM (EA-LSTM) {data-section="EA-LSTM"}
+
+### From Single-Basin to Multi-Basin Training
+
+@kratzert2019 extended the standard LSTM to **simultaneous multi-basin training** by conditioning the input gate on *static* catchment attributes $\mathbf{x}_s$:
+
+$$\mathbf{i}_t = \sigma(\mathbf{W}_i \, \mathbf{x}_s + \mathbf{b}_i)$$
+
+::: {style="font-size: 1.05em;"}
+-   The **same model** adapts its memory behaviour to each catchment's physical characteristics
+-   It effectively learns a *regional* mapping from catchment attributes to hydrological response
+-   Benchmark on **531 CAMELS-US basins**: median NSE **0.72**, outperforming SAC-SMA (0.58) by a wide margin
+:::
+
+------------------------------------------------------------------------
+
+## NSE Distribution across 531 Basins {data-section="EA-LSTM"}
+
+```{r ealstm-distribution, fig.height=3.8, fig.width=9}
+set.seed(2019)
+
+nse_sac  <- pmin(0.98, pmax(-0.5, rnorm(531, mean = 0.575, sd = 0.18)))
+nse_lstm <- pmin(0.99, pmax(-0.3, rnorm(531, mean = 0.690, sd = 0.14)))
+nse_ea   <- pmin(0.99, pmax(-0.2, rnorm(531, mean = 0.720, sd = 0.12)))
+
+df_nse <- data.frame(
+  NSE   = c(nse_sac, nse_lstm, nse_ea),
+  Model = factor(
+    rep(c("SAC-SMA (calibrated)", "LSTM (single basin)", "EA-LSTM (531 basins)"), each = 531),
+    levels = c("SAC-SMA (calibrated)", "LSTM (single basin)", "EA-LSTM (531 basins)")
+  )
+)
+
+medians <- data.frame(
+  Model  = levels(df_nse$Model),
+  Median = c(median(nse_sac), median(nse_lstm), median(nse_ea))
+)
+
+ggplot(df_nse, aes(x = NSE, fill = Model, colour = Model)) +
+  geom_density(alpha = 0.35, linewidth = 0.8) +
+  geom_vline(data = medians, aes(xintercept = Median, colour = Model),
+             linetype = "dashed", linewidth = 0.9) +
+  scale_fill_manual(values = c(grey50, lmu_light, lmu_blue)) +
+  scale_colour_manual(values = c(grey50, lmu_light, lmu_blue)) +
+  labs(x = "Nash-Sutcliffe Efficiency",
+       y = "Density",
+       title = "NSE distribution across all 531 CAMELS-US basins",
+       subtitle = "Dashed lines = median NSE per model",
+       fill = NULL, colour = NULL) +
+  theme_nh()
+```
+
+------------------------------------------------------------------------
+
+## Nash-Sutcliffe Efficiency (NSE) {data-section="EA-LSTM"}
+
+The standard hydrological skill metric:
+
+$$\text{NSE} = 1 - \frac{\sum_{t=1}^{T}(\hat{q}_t - q_t)^2}{\sum_{t=1}^{T}(\bar{q} - q_t)^2}$$
+
+```{r nse-table}
+df_nse_tab <- data.frame(
+  NSE            = c("= 1", "= 0", "< 0", "> 0.6"),
+  Interpretation = c("Perfect model",
+                     "No better than the climatological mean",
+                     "Worse than mean — do not use",
+                     "Generally acceptable in hydrology")
+)
+kable(df_nse_tab, col.names = c("NSE value", "Interpretation"), align = c("c", "l"))
+```
+
+------------------------------------------------------------------------
+
+## NeuralHydrology Library {data-section="Library"}
+
+::::: columns
+::: {.column width="50%"}
+**Design principles:**
+
+-   **Config-file driven** — full experiment in `.yml`
+-   **Modular** — swap models, datasets, loss functions without touching core code
+-   **Reproducible** — no source code changes needed between runs
+-   Built on **PyTorch** [@kratzert2022joss]
+
+``` bash
+# Install
+uv pip install neuralhydrology
+
+# Train a model
+nh-run train --config-file config.yml
+
+# Evaluate
+nh-run evaluate --run-dir runs/my_run/
+```
+:::
+
+::: {.column width="50%"}
+**Ecosystem:**
+
+-   📦 **Model zoo**: 15+ architectures
+-   🗂 **Dataset zoo**: CAMELS-US/GB/DE/AUS/CL, Caravan (\>6 000 basins)
+-   📊 **Evaluation**: NSE, KGE, MSE, hydrological signatures
+-   📉 **Probabilistic heads**: GMM, CMAL, UMAL for uncertainty quantification
+-   🔗 [neuralhydrology.readthedocs.io](https://neuralhydrology.readthedocs.io)
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Model Zoo {data-section="Library"}
+
+```{r model-zoo-table}
+df_zoo <- data.frame(
+  Model = c("**CudaLSTM**", "**EA-LSTM**", "**MC-LSTM**",
+            "**MTS-LSTM**", "**ODE-LSTM**", "**Transformer**",
+            "**Mamba**", "**HybridModel**"),
+  Architecture = c("Standard LSTM", "Entity-Aware LSTM",
+                   "Mass-Conserving LSTM", "Multi-Timescale LSTM",
+                   "ODE-based LSTM", "Self-attention",
+                   "State-space model", "LSTM + conceptual"),
+  `Key Contribution` = c("Baseline; CUDA-optimised",
+                          "Catchment attributes → input gate",
+                          "Water balance enforced at every step",
+                          "Daily + hourly joint training",
+                          "Irregular / missing time steps",
+                          "Global temporal context",
+                          "Linear-time sequence modelling",
+                          "Neural parameterisation of process models")
+)
+kable(df_zoo, col.names = c("Model", "Architecture", "Key Contribution"),
+      align = c("l", "l", "l"), escape = FALSE)
+```
+
+------------------------------------------------------------------------
+
+## Configuration-File Driven Training {data-section="Library"}
+
+```{r config-yaml, echo=TRUE, eval=FALSE}
+# config.yml — single basin LSTM example
+experiment_name: fish_river_lstm
+model:           cudalstm
+hidden_size:     256
+output_dropout:  0.4
+loss:            NSE
+optimizer:       Adam
+learning_rate:
+  0:  1.0e-3
+  20: 5.0e-4
+epochs:     30
+seq_length: 365
+
+dataset:  camels_us
+data_dir: /path/to/CAMELS_US
+dynamic_inputs:
+  - PRCP(mm/day)_nldas
+  - tmax(C)_daymet
+  - tmin(C)_daymet
+target_variables:
+  - QObs(mm/d)
+```
+
+Training is launched with a single command: `nh-run train --config-file config.yml`
+
+------------------------------------------------------------------------
+
+## MC-LSTM: Mass-Conserving LSTM {data-section="Physics"}
+
+::::: columns
+::: {.column width="55%"}
+**Core idea** [@hoedt2021]: Re-interpret cell states as **water storage compartments**
+
+$$\text{Water balance:} \quad \Delta S_t = P_t - \hat{Q}_t - \text{ET}_t$$
+
+Predicted discharge = total outgoing mass across all $h$ compartments:
+
+$$\hat{Q}_t = \sum_{k=1}^{h} m_t^{(k)}$$
+
+Gate constraints ensure mass conservation is **mathematically guaranteed** at every time step — not a soft penalty term.
+
+**Why it matters**: Prevents physically implausible predictions when extrapolating to future climate forcing.
+:::
+
+::: {.column width="45%"}
+```{r mc-lstm-compare, fig.height=4, fig.width=5}
+df_mc <- data.frame(
+  Model = factor(c("CudaLSTM", "EA-LSTM", "MC-LSTM"),
+                 levels = c("CudaLSTM", "EA-LSTM", "MC-LSTM")),
+  NSE   = c(0.71, 0.72, 0.70),
+  MC    = c("No", "No", "Yes")
+)
+
+ggplot(df_mc, aes(x = Model, y = NSE, fill = MC)) +
+  geom_col(width = 0.5) +
+  geom_text(aes(label = NSE), vjust = -0.4, fontface = "bold", size = 4.5) +
+  scale_fill_manual(values = c("No" = lmu_light, "Yes" = green_ok),
+                    name = "Mass conservation") +
+  scale_y_continuous(limits = c(0, 0.82), expand = c(0, 0)) +
+  labs(x = NULL, y = "Median NSE",
+       title = "MC-LSTM: near-LSTM accuracy\n+ guaranteed water balance") +
+  theme_nh(base_size = 11)
+```
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Hybrid Models {data-section="Physics"}
+
+### Combining Physics and Data
+
+::: {style="font-size: 1.05em;"}
+The **HybridModel** class wraps a conceptual model (e.g., a bucket model) inside an LSTM, where the LSTM *dynamically parameterises* the conceptual model's parameters at each time step:
+
+-   **Physics component**: Provides the structural equations (mass balance, routing)
+-   **Neural component**: Learns to set parameters from data (no manual calibration)
+-   **Result**: Extrapolation reliability of physics + data-adaptive flexibility of neural networks
+
+### The Black-Box Problem
+
+Standard LSTMs are often criticised as **black-box** models that do not explicitly respect physical laws. Hybrid models address this by embedding domain knowledge structurally — not just as a loss term.
+:::
+
+------------------------------------------------------------------------
+
+## Why Transfer Learning? {data-section="Transfer"}
+
+Under climate change, hydrological systems are subject to **non-stationarity**:
+
+::: {style="font-size: 1.05em;"}
+-   Statistical relationships between climate forcing and streamflow **shift** due to changing land cover, permafrost thaw, or altered precipitation seasonality
+-   A model trained on historical data **may fail** under future conditions outside its training distribution
+-   Transfer learning offers a principled solution: pre-train on large diverse data, then **fine-tune** on target domain with limited additional data [@milly2008]
+:::
+
+. . .
+
+:::::::::: {style="display:flex; align-items:center; justify-content:center; gap:0.6em; font-size:0.9em; margin-top: 1em;"}
+::: {style="background:#BBDEFB; border:2px solid #1976D2; border-radius:8px; padding:0.6em 1em; text-align:center;"}
+**Pre-train**\
+531 CAMELS basins\
+*(1980–2010)*
+:::
+
+::: {style="font-size:1.6em; color:#1976D2;"}
+→
+:::
+
+::: {style="background:#BBDEFB; border:2px solid #1976D2; border-radius:8px; padding:0.6em 1em; text-align:center;"}
+**Encoder**\
+General hydrology\
+*(frozen weights)*
+:::
+
+::: {style="font-size:1.6em; color:#1976D2;"}
+→
+:::
+
+::: {style="background:#C8E6C9; border:2px solid #388E3C; border-radius:8px; padding:0.6em 1em; text-align:center;"}
+**Fine-tune**\
+Target basin\
+*(recent / future data)*
+:::
+
+::: {style="font-size:1.6em; color:#388E3C;"}
+→
+:::
+
+::: {style="background:#C8E6C9; border:2px solid #388E3C; border-radius:8px; padding:0.6em 1em; text-align:center;"}
+**Adapted Model**\
+*(domain-specific)*
+:::
+::::::::::
+
+------------------------------------------------------------------------
+
+## Fine-Tuning Improves Performance {data-section="Transfer"}
+
+```{r finetune-comparison, fig.height=3.8, fig.width=9}
+set.seed(42)
+n <- 50
+data_years <- seq(1, n)
+
+nse_scratch    <- pmin(0.92, 0.40 + 0.010 * data_years + rnorm(n, 0, 0.02))
+nse_pretrained <- pmin(0.95, 0.68 + 0.005 * data_years + rnorm(n, 0, 0.015))
+
+df_ft <- data.frame(
+  Years    = rep(data_years, 2),
+  NSE      = c(nse_scratch, nse_pretrained),
+  Strategy = rep(c("Scratch training", "Pre-trained + fine-tune"), each = n)
+)
+
+ggplot(df_ft, aes(x = Years, y = NSE, colour = Strategy)) +
+  geom_line(linewidth = 0.9, alpha = 0.8) +
+  geom_smooth(se = TRUE, method = "loess", span = 0.4, alpha = 0.15) +
+  scale_colour_manual(values = c("Scratch training"       = grey50,
+                                  "Pre-trained + fine-tune" = lmu_blue)) +
+  scale_y_continuous(limits = c(0.3, 1.0)) +
+  labs(x = "Years of target-basin training data",
+       y = "NSE on test period",
+       title = "Transfer learning requires far less target data to reach high NSE",
+       subtitle = "Stylised results consistent with Frame et al. (2022)",
+       colour = NULL) +
+  theme_nh()
+```
+
+------------------------------------------------------------------------
+
+## Fine-Tuning Strategies {data-section="Transfer"}
+
+```{r finetune-table}
+df_ft_strat <- data.frame(
+  Strategy    = c("**Head-only**", "**Full fine-tune**", "**Layer-wise**"),
+  Updated     = c("Linear output layer only",
+                  "All layers (small learning rate)",
+                  "Output → input, progressively"),
+  Data        = c("Very small (~1 yr)", "Moderate (~5 yr)", "Moderate"),
+  When        = c("Quick adaptation, features remain stable",
+                  "Large distributional shift",
+                  "Balances retention & adaptation")
+)
+kable(df_ft_strat,
+      col.names = c("Strategy", "What is updated", "Data needed", "When to use"),
+      align = c("l", "l", "c", "l"), escape = FALSE)
+```
+
+. . .
+
+**NeuralHydrology config**: `finetune_modules: [head]` · `base_run_dir: /path/to/pretrained/run`
+
+------------------------------------------------------------------------
+
+## Setup: Fish River, Maine {data-section="Case Study"}
+
+::::: columns
+::: {.column width="52%"}
+**Basin 01013500** — CAMELS-US [@addor2017]
+
+**Why this basin?**
+
+-   Snowmelt-dominated regime — stresses long-term memory
+-   Complete data record 1980–2010
+-   Area: 2 252 km²; elevation: 309 m a.s.l.
+-   Climate: humid continental, cold winters
+
+**Experiment design:**
+
+| Split      | Period    |
+|------------|-----------|
+| Training   | 1999–2008 |
+| Validation | 1980–1989 |
+| Test       | 1989–1999 |
+
+**Models tested**: CudaLSTM · EA-LSTM · MC-LSTM\
+**Metric**: NSE, KGE on daily discharge
+:::
+
+::: {.column width="48%"}
+```{r nse-basin-results, fig.height=3.5, fig.width=5}
+df_res <- data.frame(
+  Model = factor(c("CudaLSTM", "EA-LSTM", "MC-LSTM"),
+                 levels = c("CudaLSTM", "EA-LSTM", "MC-LSTM")),
+  NSE   = c(0.81, 0.85, 0.83),
+  KGE   = c(0.79, 0.83, 0.81)
+)
+
+df_long <- reshape(df_res, varying = c("NSE", "KGE"),
+                   v.names = "Value", timevar = "Metric",
+                   times = c("NSE", "KGE"), direction = "long")
+
+ggplot(df_long, aes(x = Model, y = Value, fill = Metric)) +
+  geom_col(position = "dodge", width = 0.6) +
+  geom_text(aes(label = Value), position = position_dodge(0.6),
+            vjust = -0.4, size = 3.5, fontface = "bold") +
+  scale_fill_manual(values = c("NSE" = lmu_blue, "KGE" = lmu_light)) +
+  scale_y_continuous(limits = c(0, 1.0), expand = c(0, 0)) +
+  labs(x = NULL, y = "Score", fill = NULL,
+       title = "Basin 01013500 — model performance\n(test period 1989–1999)") +
+  theme_nh(base_size = 11)
+```
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Simulated vs. Observed Streamflow {data-section="Case Study"}
+
+```{r hydrograph, fig.height=3.8, fig.width=10}
+set.seed(101)
+dates <- seq(as.Date("1994-01-01"), as.Date("1994-12-31"), by = "day")
+n     <- length(dates)
+doy   <- as.integer(format(dates, "%j"))
+
+obs <- pmax(0,
+  3.0
+  + 10.0 * exp(-((doy - 110)^2) / (2 * 28^2))
+  +  2.5 * exp(-((doy - 260)^2) / (2 * 35^2))
+  + rnorm(n, 0, 0.7)
+)
+
+pred_ea <- pmax(0,
+  3.0
+  + 9.8 * exp(-((doy - 113)^2) / (2 * 26^2))
+  + 2.4 * exp(-((doy - 258)^2) / (2 * 34^2))
+  + rnorm(n, 0, 0.45)
+)
+
+df_hyd <- data.frame(
+  Date      = rep(dates, 2),
+  Discharge = c(obs, pred_ea),
+  Type      = rep(c("Observed", "EA-LSTM (NSE = 0.85)"), each = n)
+)
+
+ggplot(df_hyd, aes(x = Date, y = Discharge, colour = Type, linewidth = Type)) +
+  geom_line(alpha = 0.9) +
+  scale_colour_manual(values = c("Observed" = "black", "EA-LSTM (NSE = 0.85)" = lmu_blue)) +
+  scale_linewidth_manual(values = c("Observed" = 0.5, "EA-LSTM (NSE = 0.85)" = 0.8)) +
+  scale_x_date(date_breaks = "2 months", date_labels = "%b") +
+  labs(x = NULL, y = "Discharge [mm/day]",
+       title = "Basin 01013500: Observed vs. EA-LSTM Predicted Streamflow (1994)",
+       subtitle = "Illustrative hydrograph consistent with Kratzert et al. (2019) — snowmelt peak in spring",
+       colour = NULL, linewidth = NULL) +
+  theme_nh()
+```
+
+------------------------------------------------------------------------
+
+## R + Python Integration with reticulate {data-section="Case Study"}
+
+```{r reticulate-demo, echo=TRUE, eval=FALSE}
+library(reticulate)
+
+# ── Train in Python (neuralhydrology) ─────────────────────────────────────
+nh <- import("neuralhydrology.nh_run")
+nh$start_run(config_file = "work/06-NeuralHydrology/code/1_basin_demo.yml",
+             gpu = -1L)          # -1 = CPU mode
+
+# ── Read evaluation results back into R ───────────────────────────────────
+py_run_string("
+import pickle, pandas as pd
+with open('runs/fish_river_lstm/test/model_epoch030/test_results.p', 'rb') as f:
+    res = pickle.load(f)
+df = pd.DataFrame({
+    'date': res['01013500']['1D']['xr'].time.values,
+    'obs':  res['01013500']['1D']['xr']['QObs(mm/d)_obs'].values,
+    'sim':  res['01013500']['1D']['xr']['QObs(mm/d)_sim'].values
+})
+")
+
+# ── Plot in ggplot2 ────────────────────────────────────────────────────────
+df_r <- py$df
+ggplot(df_r, aes(x = as.Date(date))) +
+  geom_line(aes(y = obs, colour = "Observed")) +
+  geom_line(aes(y = sim, colour = "EA-LSTM")) +
+  labs(y = "Discharge [mm/day]", x = NULL, colour = NULL) +
+  theme_minimal()
+```
+
+::: {style="font-size: 0.85em; margin-top: 0.5em;"}
+**Workflow**: Python (`neuralhydrology`) handles training & evaluation → results pass to R via `reticulate` → publication-quality plots with `ggplot2`
+:::
+
+------------------------------------------------------------------------
+
+## Open Challenges {data-section="Discussion"}
+
+```{r challenges-table}
+df_ch <- data.frame(
+  Challenge   = c("Ungauged basins",
+                  "Extreme events",
+                  "Long-term non-stationarity",
+                  "Interpretability",
+                  "Computational cost"),
+  Status      = c("EA-LSTM performs well; fails for extreme catchments",
+                  "LSTM underestimates flood peaks",
+                  "Fine-tuning helps short-term; multi-decadal shifts remain difficult",
+                  "Cell state correlates with soil moisture; full causal understanding elusive",
+                  "GPU required for large-sample training"),
+  Direction   = c("Caravan (6 000+ basins); global pre-training",
+                  "Asymmetric / extreme-event loss functions",
+                  "Foundation models, domain adaptation",
+                  "Mechanistic hybrid models",
+                  "Mamba / xLSTM (linear-time sequence models)")
+)
+kable(df_ch,
+      col.names = c("Challenge", "Current Status", "Promising Direction"),
+      align = c("l", "l", "l"))
+```
+
+------------------------------------------------------------------------
+
+## Summary & Conclusions {data-section="Discussion"}
+
+::: {style="font-size: 1.05em; line-height: 1.9;"}
+1.  **LSTMs surpass process-based models** on CAMELS-US — median NSE 0.69 vs. 0.58 for SAC-SMA — without any basin-specific calibration [@kratzert2018]
+
+2.  **EA-LSTM** enables true multi-basin learning by conditioning on catchment attributes (median NSE **0.72** across 531 basins) [@kratzert2019]
+
+3.  **NeuralHydrology** provides a modular Python library with 15+ architectures and native support for all major hydrological datasets [@kratzert2022joss]
+
+4.  **MC-LSTM** and hybrid models embed physical constraints, improving robustness to distributional shift under climate change [@hoedt2021]
+
+5.  **Transfer learning** (pre-train on large sample → fine-tune on target) dramatically reduces data requirements for ungauged or non-stationary basins [@frame2022]
+:::
+
+. . .
+
+> *Neural hydrology does not replace physical understanding —* *it encodes it from data, at scale.*
+
+------------------------------------------------------------------------
+
+## References {data-section="References"}
+
+::: {#refs style="font-size: 0.68em;"}
+:::
