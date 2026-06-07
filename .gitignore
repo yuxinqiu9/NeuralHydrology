@@ -3,5 +3,7 @@
 .RData
 .Ruserdata
 /slides/slides_files
+/slides/node_modules
+/slides/output
 /slides/data
 README.md
