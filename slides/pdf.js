@@ -3,6 +3,9 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs');
 
+const DEFAULT_CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const CHROME_PATH = process.env.CHROME_PATH || DEFAULT_CHROME_PATH;
+
 function startServer(htmlDir) {
   const server = http.createServer((req, res) => {
     const filePath = path.join(htmlDir, req.url.split('?')[0]);
@@ -22,6 +25,18 @@ function startServer(htmlDir) {
 
 (async () => {
   const outPath = path.resolve('output/slides.pdf');
+  const htmlPath = path.resolve('output/slides.html');
+
+  if (!fs.existsSync(htmlPath)) {
+    console.error('ERROR: output/slides.html not found. Render HTML first with Quarto.');
+    process.exit(1);
+  }
+
+  if (!fs.existsSync(CHROME_PATH)) {
+    console.error(`ERROR: Chrome executable not found at: ${CHROME_PATH}`);
+    console.error('Set CHROME_PATH to your Chrome executable path and retry.');
+    process.exit(1);
+  }
 
   if (fs.existsSync(outPath)) {
     try { fs.unlinkSync(outPath); } catch {
@@ -34,7 +49,7 @@ function startServer(htmlDir) {
   const port = server.address().port;
 
   const browser = await puppeteer.launch({
-    executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    executablePath: CHROME_PATH,
     args: ['--no-sandbox'],
     headless: true,
   });

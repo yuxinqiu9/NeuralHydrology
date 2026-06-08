@@ -76,7 +76,7 @@ Deep Learning for Streamflow Prediction under Climate Change
 
 **Streamflow** is the volume of water flowing through a river channel at a given point per unit time — typically measured in mm/day or m³/s. It is the integrated output of the entire catchment: precipitation, evaporation, soil infiltration, and groundwater dynamics all feed into it [@addor2017].
 
-**Rainfall-runoff modelling** is the task of predicting daily streamflow $Q$ from meteorological inputs (precipitation, temperature, radiation) — a central problem in hydrology for over a century [@kratzert2018].
+**Rainfall-runoff modelling** is the task of predicting daily streamflow $Q$ from meteorological inputs (precipitation, temperature, radiation) — a long-standing central problem in hydrology [@kratzert2018].
 
 . . .
 
@@ -97,6 +97,7 @@ Deep Learning for Streamflow Prediction under Climate Change
 
 ::: {style="font-size: 1.05em;"}
 -   **Floods** are the most frequent natural disaster — 57 million people affected in 2022 alone [@cred2022]
+-   **Floods** are among the most frequent natural disasters and create large annual human and economic impacts [@cred2022]
 -   Accurate **streamflow forecasts** are critical for flood early-warning, reservoir management, and hydropower scheduling
 -   Under **climate change**, precipitation extremes intensify, seasonal patterns shift, and snowmelt regimes change [@ipcc2021]
 -   Hydrological models must be **robust to non-stationarity** — conditions outside the historical training distribution
@@ -104,7 +105,7 @@ Deep Learning for Streamflow Prediction under Climate Change
 
 . . .
 
-> *"Stationarity is dead: Whither water management?"* — Milly et al. (2008)
+> Milly et al. (2008) framed the challenge as *"Stationarity is dead: Whither water management?"* [@milly2008]
 
 ------------------------------------------------------------------------
 
@@ -123,7 +124,7 @@ models <- data.frame(
 ggplot(models, aes(x = Model, y = NSE, fill = Group)) +
   geom_col(width = 0.50) +
   geom_hline(yintercept = 0.6, linetype = "dashed", colour = grey50) +
-  annotate("text", x = 0.6, y = 0.615, label = "Acceptable threshold",
+  annotate("text", x = 0.6, y = 0.615, label = "Reference line (NSE = 0.6)",
            hjust = 0, size = 3.5, colour = grey50) +
   geom_text(aes(label = NSE), hjust = -0.25, size = 4, fontface = "bold") +
   scale_fill_manual(values = c("Deep Learning" = lmu_blue, "Process-based" = lmu_light)) +
@@ -152,11 +153,11 @@ Cell state $\approx$ soil moisture / groundwater · Forget gate $\approx$ draina
 
 **Entity-Aware LSTM** [@kratzert2019] — conditions the input gate on static catchment attributes $\mathbf{x}_s$:
 
-$$\mathbf{i}_t = \sigma(\mathbf{W}_i \mathbf{x}_s + \mathbf{b}_i)$$
+$$\mathbf{i} = \sigma(\mathbf{W}_i \mathbf{x}_s + \mathbf{b}_i)$$
 
 One model trained simultaneously on **531 CAMELS-US basins**: median NSE **0.72** — outperforming the best calibrated process model (SAC-SMA, NSE 0.58) by a wide margin.
 
-The **Nash-Sutcliffe Efficiency** $\text{NSE} = 1 - \frac{\sum(\hat{q}_t - q_t)^2}{\sum(\bar{q} - q_t)^2}$: ranges from $-\infty$ to 1; above 0.6 is considered acceptable in hydrology.
+The **Nash-Sutcliffe Efficiency** $\text{NSE} = 1 - \frac{\sum(\hat{q}_t - q_t)^2}{\sum(\bar{q} - q_t)^2}$ ranges from $-\infty$ to 1. In several hydrological studies, NSE values above 0.6 are treated as reasonably good, but this remains context dependent.
 
 ------------------------------------------------------------------------
 
@@ -184,7 +185,7 @@ nh-run evaluate --run-dir    runs/my_run/
 
 **MC-LSTM** [@hoedt2021] — re-interprets cell states as water storage compartments. Mass conservation is a **structural guarantee**, not a loss penalty:
 
-$$\Delta S_t = P_t - \hat{Q}_t - \text{ET}_t \quad \text{(enforced at every time step)}$$
+$$\Delta S_t \approx P_t - \hat{Q}_t - \mathrm{ET}_t \quad \text{(conceptual water-balance view)}$$
 
 This prevents physically impossible predictions when extrapolating to future climate forcing outside the training distribution.
 
@@ -195,39 +196,54 @@ This prevents physically impossible predictions when extrapolating to future cli
 1. **Pre-train** on a large, diverse dataset (Caravan, 6 000+ basins) — builds a general hydrological encoder
 2. **Fine-tune** on the target basin with limited data (head-only / full / layer-wise)
 
-Pre-trained models reach higher NSE with limited target data than training from scratch — particularly useful for ungauged basins and data-scarce Alpine catchments.
+In practice, pre-training can improve sample efficiency when target-basin data are limited, which is useful for ungauged or data-scarce settings.
 
 ------------------------------------------------------------------------
 
 ## Case Study: LamaH-CE — Danube River Network {data-section="Case Study"}
 
-```{r lamah-results, fig.height=3.4, fig.width=8.5}
-df_dan <- data.frame(
-  Scenario = factor(
-    c("Station 399\n(Danube near Bratislava)", "Median of 375 gauges\n(LamaH-CE baseline)", "Worst-case gauge\n(flood spike events)"),
-    levels = c("Worst-case gauge\n(flood spike events)", "Median of 375 gauges\n(LamaH-CE baseline)", "Station 399\n(Danube near Bratislava)")
+```{r lamah-gnn-case, fig.height=3.4, fig.width=8.5}
+df_case <- data.frame(
+  Metric = factor(
+    c("Station 399\n(Danube near Bratislava)",
+      "Median of 375 gauges\n(LamaH-CE baseline)",
+      "Worst-case gauge\n(flood spike events)"),
+    levels = c("Worst-case gauge\n(flood spike events)",
+               "Median of 375 gauges\n(LamaH-CE baseline)",
+               "Station 399\n(Danube near Bratislava)")
   ),
-  NSE   = c(0.899, 0.856, 0.248),
-  Group = c("Strong result", "Typical result", "Extreme event failure")
+  NSE = c(0.899, 0.856, 0.248),
+  Type = c("Strong result", "Typical result", "Extreme event failure")
 )
-ggplot(df_dan, aes(x = Scenario, y = NSE, fill = Group)) +
+
+ggplot(df_case, aes(x = Metric, y = NSE, fill = Type)) +
   geom_col(width = 0.55) +
   geom_hline(yintercept = 0.6, linetype = "dashed", colour = grey50) +
-  annotate("text", x = 0.65, y = 0.615, label = "Acceptable threshold (0.6)",
-           hjust = 0, size = 3.5, colour = grey50) +
-  geom_text(aes(label = NSE), hjust = -0.2, size = 4, fontface = "bold") +
-  scale_fill_manual(values = c("Strong result"         = lmu_blue,
-                               "Typical result"        = lmu_light,
-                               "Extreme event failure" = amber)) +
+  annotate("text", x = 1, y = 0.62, label = "Acceptable threshold (0.6)",
+           hjust = 0, colour = grey50, size = 5.5) +
+  geom_text(aes(label = sprintf("%.3f", NSE)), hjust = -0.15, size = 4, fontface = "bold") +
+  scale_fill_manual(values = c(
+    "Strong result" = lmu_blue,
+    "Typical result" = lmu_light,
+    "Extreme event failure" = amber
+  )) +
   scale_y_continuous(limits = c(0, 1.05), expand = c(0, 0)) +
   coord_flip() +
-  labs(x = NULL, y = "NSE",
-       title = "LamaH-CE: Danube river network (Central Europe), 375 gauges",
-       fill = NULL) +
-  theme_nh()
+  labs(
+    x = NULL,
+    y = "NSE",
+    title = "LamaH-CE: Danube river network (Central Europe), 375 gauges",
+    subtitle = NULL,
+    fill = NULL
+  ) +
+  theme_nh() +
+  theme(legend.position = "bottom")
 ```
 
-**Dataset**: LamaH-CE [@klingler2021]
+**Dataset**: LamaH-CE (Klingler et al. 2021)
+
+**Source mapping for numbers**: `Station 399` identity from Klingler et al. (2021, ID 399 statement); `0.856` and `0.248` from "Exploiting River Network Topology for Flood Forecasting with Graph Neural Networks" (85.62% mean / 24.78% worst-case); `0.899` from the case-study benchmark summary visualization used in this presentation.
+
 
 ------------------------------------------------------------------------
 

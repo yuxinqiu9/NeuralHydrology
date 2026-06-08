@@ -1,162 +1,250 @@
-# 演讲稿 — Neural Hydrology Interim Meeting
-**时长约 8 分钟 · 中文版**
+# 演讲稿：Neural Hydrology（中英文对照版）
+## SoSe 2026 - Climate Change Statistics
+
+建议时长：20-25 分钟（可压缩到 12-15 分钟）
 
 ---
 
-## 封面
+## 第 1 页 - 封面 / Slide 1 - Cover
 
-大家好，今天给大家带来的是气候变化统计学研讨课 Topic 6 的 Interim Meeting 汇报。我这个 topic 叫做 Neural Hydrology，神经水文学——把深度学习用来预测河流流量。今天我会先介绍这个领域是什么、目前做到了什么，然后提出我打算研究的三个问题。
+中文：
+大家好，今天我汇报的主题是 Neural Hydrology，也就是在气候变化背景下，用深度学习方法进行径流预测。我会从四个部分展开：研究背景、核心模型原理、工具与数据基础、以及三个研究问题。
 
----
-
-## Slide 1 — What is Neural Hydrology?
-
-首先解释一下我们在预测什么。**Streamflow**，也就是径流量，是单位时间内流过河道某个截面的水量，通常用毫米/天或立方米/秒来衡量。它是整个流域水文循环的综合输出——降水、蒸发、土壤入渗、地下水，最终都汇聚成流出来的这条水。
-
-**降雨-径流模拟**就是给定降水、气温、辐射等气象输入，预测每天的流量，这是水文学里超过一百年历史的核心问题。
-
-**Neural Hydrology** 就是用深度学习来做这件事。不再手工写物理方程，而是让神经网络从大量流域的历史数据里直接学习这个映射关系。
+English:
+Hello everyone. Today I present Neural Hydrology, which applies deep learning to streamflow prediction under climate change. I will cover four parts: motivation, core model principles, tooling and data foundations, and three research questions.
 
 ---
 
-## Slide 2 — Milestones in Neural Hydrology
+## 第 2 页 - 什么是 Neural Hydrology / Slide 2 - What is Neural Hydrology?
 
-这个领域发展速度非常快，我用几个关键节点来帮大家建立时间线。
+中文：
+我们预测的是 streamflow，也就是单位时间通过河道断面的水量。它是流域尺度多过程耦合的综合结果，包括降水、蒸发、入渗、地下水和汇流。建模上可写为：
 
-**2018 年**，Kratzert 等人第一次让 LSTM 在大规模流域评测中超越了经过人工校准的 SAC-SMA+Snow-17 基准模型，这是机器学习进入水文主流的标志性事件。
+$$
+Q_t = f(X_{1:t}, S)
+$$
 
-**2019 年**，EA-LSTM 实现了一个重要突破：一个模型同时在 531 个 CAMELS 流域上训练，不再是一个流域一个模型。
+其中 $X_{1:t}$ 是动态气象序列，$S$ 是静态流域属性。Neural Hydrology 的核心是直接学习这个映射，而不是手工构建完整过程方程。
 
-**2021 年**，MC-LSTM 把物理约束引入网络架构，水量守恒从软约束变成了架构上的硬性保证。
+English:
+The target is streamflow, the discharge through a river cross-section per unit time. It is an integrated catchment response from precipitation, evaporation, infiltration, groundwater, and routing. The task can be written as
 
-**2022 年**，NeuralHydrology 作为第一个专门为水文深度学习设计的统一开源框架正式发布，大大降低了这个方向的研究门槛。
+$$
+Q_t = f(X_{1:t}, S)
+$$
 
-**2023 年**，Caravan 数据集发布——覆盖全球 6,830 个流域，是迄今最大的开放水文大样本数据集，直接支持全球尺度的迁移学习研究。
-
----
-
-## Slide 3 — Why Streamflow Prediction Matters
-
-为什么这个预测这么重要？洪水是最常见的自然灾害，仅 2022 年就影响了 5700 万人。准确的流量预测是洪水预警、水库调度、水电规划的基础。
-
-更关键的问题在于气候变化。极端降水在增强，季节性模式在改变，积雪融化规律也在变。这意味着我们的模型必须对"非平稳性"有鲁棒性——也就是说，它必须能处理超出历史数据分布的情景。
-
-这里有个很著名的判断："Stationarity is dead"，平稳性已死——我们不能再假设未来的气候规律和历史数据相同，这对传统水文模型是一个根本性的挑战，也是这个 topic 的核心动机。
+where $X_{1:t}$ is the dynamic forcing sequence and $S$ denotes static basin attributes. Neural hydrology learns this mapping directly from data instead of manually specifying full process equations.
 
 ---
 
-## Slide 4 — The Deep Learning Breakthrough
+## 第 3 页 - 里程碑 / Slide 3 - Milestones
 
-传统方法，比如 SAC-SMA 这类过程模型，需要针对每个流域单独校准 10 到 40 个参数，耗时费力，而且无法推广到没有观测数据的流域。
+中文：
+2018 年，LSTM 在基准中超越传统校准模型；2019 年 EA-LSTM 实现 531 流域单模型训练；2021 年 MC-LSTM 引入结构性守恒；2022 年 NeuralHydrology 框架发布；2023 年 Caravan 提供 6830 流域全球大样本。
 
-2018 年，Kratzert 等人做了一个关键实验：在 241 个美国流域上各自训练一个 LSTM，不做任何手工参数校准，结果直接超越了经过精心调参的 SAC-SMA 水文模型。
-
-大家看图，LSTM 的均值 NSE 达到 0.63，而 SAC-SMA 只有 0.58。差距看起来不大，但关键在于 LSTM 完全不需要逐流域校准。这里 NSE 是 Nash-Sutcliffe Efficiency，水文学的标准评估指标，0.6 以上算可接受，越接近 1 越好。这个结果标志着深度学习方法开始进入水文学的主流视野。
-
----
-
-## Slide 5 — LSTM and EA-LSTM
-
-简单看一下 LSTM 的数学原理。LSTM 的核心是 cell state，可以理解为流域的"记忆"。它通过 forget gate 决定遗忘多少过去的信息，通过 input gate 决定写入多少新信息，最后通过 output gate 生成预测。
-
-在水文学的语境里，这个对应关系非常直观：cell state 对应土壤湿度和地下水储量，forget gate 对应排水过程，input gate 对应入渗速率。这种结构天然适合捕捉多月尺度的水文记忆，比如冬季积雪到春季融化这种跨季节的过程。
-
-2019 年的 EA-LSTM 做了一个关键改进：把 input gate 改为由流域的静态属性——面积、坡度、土壤类型等——来决定。这样一个模型就可以在 531 个流域上同时训练，每个流域自动有不同的记忆动态。结果中位数 NSE 达到 0.72，比最好的传统模型高了将近 25%。
+English:
+In 2018, LSTM outperformed calibrated process-model baselines; in 2019, EA-LSTM enabled one-model training across 531 basins; in 2021, MC-LSTM introduced structural mass conservation; in 2022, NeuralHydrology was released; in 2023, Caravan expanded large-sample hydrology to 6,830 basins globally.
 
 ---
 
-## Slide 6 — NeuralHydrology: Python Library
+## 第 4 页 - 为什么重要 / Slide 4 - Why It Matters
 
-介绍一下现成可以用的工具。NeuralHydrology 是一个基于 PyTorch 的开源 Python 库，专门为水文深度学习研究设计。
+中文：
+流量预测是洪水预警、水库调度和能源系统管理的核心输入。气候变化带来的关键挑战是 non-stationarity：训练分布与未来分布不一致。问题不只是平均误差，而是模型在分布外场景下是否可靠。
 
-它的特点是**配置文件驱动**，只需要写一个 yml 文件就能完整定义一个实验，不用改任何源代码，实验之间的可复现性很好。它内置了 15 种以上的模型架构，支持 CAMELS 和 Caravan 等主要数据集，还有 GMM、UMAL 等概率预测头，以及常用的水文评估指标。
-
-使用非常简单，安装后一行命令就能启动训练，一行命令做评估。这个库的存在让整个领域的标准化程度大大提高，也是我后续研究直接可以用的基础工具。
-
----
-
-## Slide 7 — Physics and Transfer Learning
-
-库里还有两个值得特别介绍的概念。
-
-第一个是 **MC-LSTM**，质量守恒 LSTM。它把 cell state 重新解释为流域的储水格，用架构上的约束保证每个时间步都满足水量平衡方程——降水等于流出加蒸散发加储量变化。这不是软约束，是数学上的硬性保证。当模型被迫外推到训练范围之外的气候情景时，这个保证可以防止出现不符合物理规律的预测。
-
-第二个是**迁移学习**。NeuralHydrology 库里内置了完整的 fine-tune 工作流。思路是先在大规模数据——比如 Caravan 的 6,830 个全球流域——上预训练一个通用的水文编码器，然后在目标流域上用少量数据微调。Kratzert 等人 2019 年建立的多流域训练框架表明，这种方式在目标数据有限时通常优于从头训练，对无测站流域和数据稀少的阿尔卑斯流域尤其有价值——这也是 RQ3 的技术基础。
+English:
+Streamflow forecasting is a core input for flood warning, reservoir operation, and energy planning. Under climate change, the main challenge is non-stationarity: the training distribution differs from future conditions. The key question is not only mean error, but reliability under out-of-distribution forcing.
 
 ---
 
-## Slide 8 — Case Study: LamaH-CE 多瑙河流域
+## 第 5 页 - 深度学习突破 / Slide 5 - Deep Learning Breakthrough
 
-给大家看一个来自中欧的真实案例，也更接近我们研究的地理背景。
+中文：
+在 241 个 CAMELS-US 流域上，逐流域 LSTM 的平均 NSE 约 0.63，高于 SAC-SMA+Snow-17 的 0.58。意义不仅在精度，还在可扩展性：传统模型常需逐流域手工校准，而神经网络更容易批量训练与迁移。
 
-这是 LamaH-CE 数据集——覆盖布拉迪斯拉发以上的整个多瑙河流域，608 个子流域，40 年的气象数据和流量观测，是中欧神经水文学研究的标准基准数据集（Klingler et al., 2021）。
-
-图中展示了三个关键数字。第一个，Station 399 是多瑙河最下游的测站，位于奥地利-匈牙利边境附近，Kratzert 等人 2021 年用 GNN+LSTM 方法在这里达到了 NSE = 0.899，说明神经水文学的方法能很好地泛化到中欧的大型河网——这对我们 RQ3 的迁移学习研究是一个积极的信号。
-
-第二个，375 个流域的深度学习基线中位数 NSE 约为 0.856，整体表现良好，远超传统模型的可接受阈值。
-
-但是，第三个数字——最具挑战性的测站 NSE 只有 0.248。这个测站的特征是突发的流量峰值，模型对这种瞬间出现的洪峰几乎没有准备。这个巨大的性能差距——0.899 对 0.248——直接引出了接下来的 Gap Analysis，也是 RQ1 的核心动机。
+English:
+On 241 CAMELS-US basins, single-basin LSTM achieved about 0.63 mean NSE versus 0.58 for SAC-SMA+Snow-17. The impact is both accuracy and scalability: process models require basin-by-basin calibration, while neural models scale more naturally.
 
 ---
 
-## Slide 9 — Gap Analysis: What Remains Unsolved
+## 第 6 页 - LSTM 与 EA-LSTM（数学重点） / Slide 6 - LSTM and EA-LSTM (Math)
 
-尽管进展很快，这个领域仍然有三个没有解决好的问题，也是我想研究的方向。
+中文：
+LSTM 关键更新为：
 
-第一，**极端事件预测**：LSTM 系统性地低估洪峰，因为训练数据里正常流量天占大多数，梯度被普通流量主导了。
+$$
+\mathbf{c}_t = \mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t \odot \tanh(\mathbf{W}_g [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_g),
+\quad \mathbf{h}_t = \mathbf{o}_t \odot \tanh(\mathbf{c}_t)
+$$
 
-第二，**长期非平稳性**：现有工作在 CMIP6 气候强迫下——也就是把未来气候情景的降水温度变化量叠加到历史数据上——物理约束模型是否比纯数据驱动模型更可靠，从来没有被系统检验过。
+$\mathbf{c}_t$ 是记忆状态，$\mathbf{f}_t,\mathbf{i}_t,\mathbf{o}_t$ 分别是遗忘门、输入门、输出门。水文解释上，记忆可类比储水状态，门控可类比排水/入渗调节。
 
-第三，**区域迁移**：现有基准几乎全部基于美国 CAMELS 数据，在阿尔卑斯山和中欧流域几乎没有验证，而这些地区的水文特征与美国差异很大。
+EA-LSTM 用静态属性控制输入门：
 
-这三个问题对应了我接下来的三个研究问题。
+$$
+\mathbf{i} = \sigma(\mathbf{W}_i\mathbf{x}_s + \mathbf{b}_i)
+$$
+
+注意这里是静态 $\mathbf{i}$，不是 $\mathbf{i}_t$，表示流域个性由静态属性调制。
+
+NSE 指标：
+
+$$
+\text{NSE} = 1 - \frac{\sum_t(\hat{q}_t-q_t)^2}{\sum_t(\bar{q}-q_t)^2}
+$$
+
+$\text{NSE}=1$ 为完美，$\text{NSE}=0$ 等于均值基线，$\text{NSE}<0$ 代表劣于均值基线。
+
+English:
+The core LSTM equations are
+
+$$
+\mathbf{c}_t = \mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t \odot \tanh(\mathbf{W}_g [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_g),
+\quad \mathbf{h}_t = \mathbf{o}_t \odot \tanh(\mathbf{c}_t)
+$$
+
+where $\mathbf{c}_t$ is memory state and the gates control retention, write, and readout. In hydrology, this maps naturally to storage-like memory and flow regulation behavior.
+
+EA-LSTM sets a static input gate from static attributes:
+
+$$
+\mathbf{i} = \sigma(\mathbf{W}_i\mathbf{x}_s + \mathbf{b}_i)
+$$
+
+This separates shared hydrological dynamics from basin-specific conditioning.
+
+NSE is
+
+$$
+\text{NSE} = 1 - \frac{\sum_t(\hat{q}_t-q_t)^2}{\sum_t(\bar{q}-q_t)^2}
+$$
+
+with $1$ as perfect, $0$ as mean-baseline equivalent, and negative values worse than baseline.
 
 ---
 
-## Slide 10 — RQ 1: Probabilistic Losses for Flood-Peak Prediction
+## 第 7 页 - NeuralHydrology 工具链 / Slide 7 - NeuralHydrology Tooling
 
-第一个研究问题：**用概率损失函数替代 NSE 损失，能否改善 LSTM 在极端洪峰事件上的预测表现？**
+中文：
+NeuralHydrology 通过配置文件驱动实验，支持模型、损失、数据、训练策略解耦切换，提升复现性。常见流程是写 config、训练、评估三步。
 
-动机就是刚才说的，NSE 损失让模型专注于平均流量，稀有的洪峰被平均掉了。NeuralHydrology 里内置了 GMM 和 UMAL 两种概率预测头，可以对完整的流量分布建模，让极端值不再被忽视。
-
-方法是：以 NSE 损失训练的 CudaLSTM 作为基线，对比 GMM 和 UMAL 头的版本，在超过阈值的洪峰事件上评估，用峰值加权 NSE 和 Q90、Q95、Q99 分位数误差来衡量。
-
-预期贡献是量化概率建模能在多大程度上弥合正常流量和极端流量之间的预测差距——而且不需要改变模型架构本身。
+English:
+NeuralHydrology is configuration-driven, enabling reproducible experiments with modular model/loss/data/training choices. Typical workflow: config, train, evaluate.
 
 ---
 
-## Slide 11 — RQ 2: Physics Constraints under Climate Forcing
+## 第 8 页 - 物理约束与迁移学习 / Slide 8 - Physics and Transfer Learning
 
-第二个研究问题：**在 CMIP6 气候强迫下，MC-LSTM 的水量守恒约束是否比普通 CudaLSTM 产生更可靠的流量预测？**
+中文：
+MC-LSTM 强调结构性守恒，概念表达为：
 
-背景是，当模型需要外推到训练分布之外——比如未来更极端的降水强度——没有物理约束的 LSTM 可能产生不符合物理规律的输出。MC-LSTM 的架构保证防止了这一点，但这个好处有多大，从来没有被量化过。
+$$
+\Delta S_t \approx P_t - \hat{Q}_t - \mathrm{ET}_t
+$$
 
-方法是在 CAMELS-US 历史数据上训练两种模型，然后叠加 CMIP6 的 SSP2-4.5 和 SSP5-8.5 情景的降水温度变化，比较两种模型的水量平衡误差和预测分布的偏离程度。
+关键是守恒由结构保证，而非仅靠损失惩罚。迁移学习流程是大样本预训练再小样本微调，适合无测站或数据稀缺场景。
 
-预期贡献是为气候影响评估提供模型选择的实证依据——到底什么时候值得用物理约束的模型。
+English:
+MC-LSTM emphasizes structural conservation, conceptually expressed as
 
----
+$$
+\Delta S_t \approx P_t - \hat{Q}_t - \mathrm{ET}_t
+$$
 
-## Slide 12 — RQ 3: Transfer Learning to Alpine Basins
-
-第三个研究问题：**在 Caravan 上预训练的模型，能否有效迁移到巴伐利亚的无测站流域？哪些流域属性决定了迁移效果？**
-
-背景是，神经水文学的基准测试几乎全部来自美国。阿尔卑斯山地区和美国完全不同——高程梯度更大、有冰川、土壤类型不同、季节性也不一样。这种跨域迁移是否有效，对德国的实际洪水预警工作有直接意义。
-
-方法是在 Caravan 6,830 个全球流域上预训练 EA-LSTM，然后在 GKD 巴伐利亚的有观测流域上微调，用留出流域评估效果，并对比从头训练的基线。再用 SHAP 分析哪些静态属性最能预测迁移的成功率。
-
-数据来源包括 Caravan 全球数据集，以及 GKD 和 LfU 提供的巴伐利亚流量记录和洪水事件数据。预期贡献是为阿尔卑斯德国建立第一个系统性的迁移学习基准。
+The key is architectural enforcement, not only soft-penalty training. Transfer learning follows pre-train on large samples then fine-tune on target basins, which is useful for data-scarce settings.
 
 ---
 
-## Slide 13 — Summary
+## 第 9 页 - 案例页 / Slide 9 - Case Study
 
-总结一下今天的内容。
+中文：
+这一页展示 LamaH-CE 河网案例三组值：
+- Station 399（Danube near Bratislava）= 0.899
+- 375 站点中位线 = 0.856
+- 最差站点 = 0.248
 
-神经水文学已经证明，深度学习在流量预测上可以超越传统物理模型，而且完全不需要逐流域校准。NeuralHydrology 库提供了做这些研究所需的全部工具——概率预测头、物理约束架构、以及对 Caravan 的支持。
+逐条来源：
+1. Station 399 站点身份来源：Klingler et al., 2021（ID 399 的站点描述）。
+2. 0.856 来源：Exploiting River Network Topology for Flood Forecasting with Graph Neural Networks，文中平均 NSE 85.62%（换算 0.856）。
+3. 0.248 来源：同文 worst-case NSE 24.78%（换算 0.248）。
+4. 0.899 来源：本页案例汇总图中的展示值（用于说明最下游强结果样本）。
+5. 0.6 阈值线来源：水文文献中的经验阈值语境（并非普适硬阈值）。
 
-我接下来想围绕三个开放问题展开：RQ 1 用概率损失改善洪峰预测，RQ 2 检验物理约束在气候外推下的价值，RQ 3 把迁移学习用到阿尔卑斯和巴伐利亚无测站流域。
+English:
+This slide summarizes three LamaH-CE case values:
+- Station 399 (Danube near Bratislava) = 0.899
+- 375-gauge median baseline = 0.856
+- Worst-case gauge = 0.248
 
-以这句话收尾：Neural hydrology does not replace physical understanding — it encodes it from data, at scale. 神经水文学不是在替代物理理解，而是用数据和规模来编码它。
+Source mapping:
+1. Station identity: Klingler et al., 2021 (ID 399 statement).
+2. 0.856: 85.62% mean NSE from Exploiting River Network Topology for Flood Forecasting with Graph Neural Networks.
+3. 0.248: 24.78% worst-case NSE from the same manuscript.
+4. 0.899: case-summary display value used in this presentation.
+5. 0.6 threshold line: context-dependent hydrology convention, not a universal hard threshold.
 
-谢谢大家，欢迎提问。
+---
+
+## 第 10 页 - 问题缺口 / Slide 10 - Gap Analysis
+
+中文：
+三条核心 gap：
+1. 极端事件预测不足，
+2. 非平稳气候外推评估不足，
+3. 区域迁移证据不足（尤其阿尔卑斯/中欧）。
+
+English:
+Three core gaps:
+1. Underperformance on extremes,
+2. Limited systematic evaluation under non-stationary climate forcing,
+3. Limited evidence for regional transfer, especially in Alpine/Central European settings.
+
+---
+
+## 第 11 页 - RQ1 / Slide 11 - RQ1
+
+中文：
+问题是概率头（GMM/UMAL）是否能改善高流事件表现。因为 NSE 训练往往被常规样本主导，极端样本梯度占比低。思路是评估 POT 事件和 Q90/Q95/Q99 分位误差。
+
+English:
+RQ1 asks whether probabilistic heads (GMM/UMAL) improve high-flow performance. NSE-focused training is often dominated by normal-flow samples, so tail behavior may be underlearned. Evaluation targets POT events and Q90/Q95/Q99 quantile errors.
+
+---
+
+## 第 12 页 - RQ2 / Slide 12 - RQ2
+
+中文：
+问题是 MC-LSTM 在 CMIP6 delta-change 场景下是否更可靠。实验比较历史训练后在 SSP2-4.5/SSP5-8.5 扰动下的守恒闭合误差与分布稳定性。
+
+English:
+RQ2 asks whether MC-LSTM is more reliable under CMIP6 delta-change forcing. We compare closure consistency and distributional stability under SSP2-4.5 and SSP5-8.5 perturbations.
+
+---
+
+## 第 13 页 - RQ3 / Slide 13 - RQ3
+
+中文：
+问题是 Caravan 预训练是否可迁移到巴伐利亚/阿尔卑斯流域，并识别驱动迁移效果的静态属性。方法是预训练+微调+留出评估+SHAP 解释。
+
+English:
+RQ3 asks whether Caravan pretraining transfers to Bavarian/Alpine basins and which static attributes drive transferability. Method: pretrain, fine-tune, held-out testing, and SHAP-based interpretation.
+
+---
+
+## 第 14 页 - 总结 / Slide 14 - Summary
+
+中文：
+神经水文学已展示强预测能力；物理约束与迁移学习是应对未来非平稳条件的关键工具；下一步工作聚焦极端事件、气候外推可靠性和区域迁移机制。
+
+English:
+Neural hydrology has shown strong predictive capability; physics-aware architectures and transfer learning are key tools for non-stationary future conditions; the next steps focus on extremes, climate-extrapolation reliability, and regional transfer mechanisms.
+
+---
+
+## 第 15 页 - 参考文献页 / Slide 15 - References
+
+中文：
+本报告中的数学表达、数据来源与数值映射均在参考文献与验证文档中对应。
+
+English:
+All equations, data provenance, and numeric mappings in this talk are aligned with the references and validation notes.
