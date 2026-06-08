@@ -4,19 +4,15 @@
      ========================= */
 
   const SCHOOL = "LMU Munich";
-  const AUTHOR = "Climate Change Statistics SoSe 2026 · Topic #6 · Neural Hydrology";
+  const AUTHOR = "Climate Change Statistics SoSe 2026 ·  Neural Hydrology";
   const DATE_TEXT = "2026-07-14";
 
   const SECTIONS = [
     "Introduction",
     "Background",
-    "LSTM",
-    "EA-LSTM",
     "Library",
-    "Physics",
-    "Transfer",
     "Case Study",
-    "Discussion",
+    "Research Questions",
     "References"
   ];
 
@@ -65,7 +61,7 @@
 
   footer.innerHTML = `
     <div class="left footer-logo">
-      <img src="logo.png" alt="LMU Munich logo">
+      <img src="${window.NAV_LOGO_SRC || 'logo.png'}" alt="LMU Munich logo">
     </div>
     <div class="center">${AUTHOR}</div>
     <div class="right"></div>

@@ -7,7 +7,26 @@
 }
 
 .reveal {
-  font-size: 30px;
+  font-size: var(--base-font-size, 26px);
+}
+
+/* Global font variables: change these values in one place to affect all slides */
+:root {
+  --base-font-family: "Source Sans Pro", Helvetica, sans-serif;
+  --heading-font-family: "Source Sans Pro", Helvetica, sans-serif;
+
+  /* Base sizes (adjust to taste) */
+  --base-font-size: 26px; /* body / list text */
+  --h1-size: 40px;
+  --h2-size: 32px;
+  --h3-size: 26px;
+  --h4-size: 20px;
+
+  /* Cover-specific sizes */
+  --cover-title-size: 100px;     /* main cover title */
+  --cover-subtitle-size: 50px;  /* cover subtitle */
+
+  --base-line-height: 1.35;
 }
 
 /* =========================
@@ -166,11 +185,41 @@
 
 .reveal,
 .reveal {
-  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  font-family: var(--base-font-family);
 }
 
 .reveal * {
   font-family: inherit;
+}
+
+/* Apply sizes to common elements so headings/body can be controlled centrally */
+.reveal .slides p,
+.reveal .slides li,
+.reveal .slides .remark-code,
+.reveal .slides blockquote {
+  font-size: var(--base-font-size);
+  line-height: var(--base-line-height);
+}
+
+.reveal .slides h1 {
+  font-family: var(--heading-font-family);
+  font-size: var(--h1-size);
+  line-height: 1.05;
+}
+
+.reveal .slides h2 {
+  font-family: var(--heading-font-family);
+  font-size: var(--h2-size);
+}
+
+.reveal .slides h3 {
+  font-family: var(--heading-font-family);
+  font-size: var(--h3-size);
+}
+
+.reveal .slides h4 {
+  font-family: var(--heading-font-family);
+  font-size: var(--h4-size);
 }
 
 /* =========================
@@ -190,19 +239,19 @@
 
 
 .cover-title {
-  font-size: 40px;
-  font-weight: 800;
+  font-size: var(--cover-title-size);
+  font-weight: 1500;
   line-height: 1.05;
   margin-bottom: 30px;
 }
 
 
 .cover-subtitle {
-  font-size: 20px;
+  font-size: var(--cover-subtitle-size);
   font-weight: 600;
   line-height: 1.2;
   opacity: 0.9;
-  margin-bottom: 300px;
+  margin-bottom: 130px; /* reduced to avoid pushing meta off-screen */
 }
 
 
