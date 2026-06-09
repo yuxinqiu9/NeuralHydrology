@@ -1386,43 +1386,40 @@ margin-right: 0; }
 <blockquote>
 <p><em>Can replacing the NSE loss with a probabilistic head (GMM / UMAL) improve LSTM performance on extreme high-flow events in snowmelt-dominated catchments?</em></p>
 </blockquote>
-<p><strong>Motivation</strong>: <span class="citation" data-cites="frame2022">Frame et al. (<a href="#/references" role="doc-biblioref" onclick>2022</a>)</span> showed that LSTM trained with NSE underestimates flood peaks because normal-flow days dominate the training gradient. Probabilistic heads model the full discharge distribution — rare peaks are no longer averaged away.</p>
 <p><strong>Method</strong>:</p>
 <ol type="1">
 <li>Train CudaLSTM with standard NSE loss (baseline)</li>
-<li>Train with GMM and UMAL heads — both available in NeuralHydrology</li>
-<li>Evaluate on peaks-over-threshold (POT) events using peak-weighted NSE and flood quantiles (Q90, Q95, Q99)</li>
+<li>Train CudaLSTM with GMM and UMAL heads</li>
+<li>Compare performance on POT events and Q90/Q95/Q99</li>
 </ol>
-<p><strong>Expected contribution</strong>: Quantify whether distributional modelling closes the gap between LSTM skill on normal flows and on extreme events, without changing the architecture.</p>
+<p><strong>Contribution</strong>: Test whether probabilistic outputs improve flood-peak prediction.</p>
 </section>
 <section id="rq-2-physics-constraints-under-climate-forcing" class="slide level2" data-section="Research Questions">
 <h2>RQ 2 — Physics Constraints under Climate Forcing</h2>
 <blockquote>
 <p><em>Does MC-LSTM’s structural water balance constraint yield more reliable streamflow projections than CudaLSTM under CMIP6 delta-change scenarios (SSP2-4.5 and SSP5-8.5)?</em></p>
 </blockquote>
-<p><strong>Motivation</strong>: Under distributional shift (future precipitation intensities outside training range), unconstrained LSTMs may produce unphysical outputs. MC-LSTM’s architectural guarantee prevents this — but the empirical magnitude of the benefit has not been systematically quantified.</p>
 <p><strong>Method</strong>:</p>
 <ol type="1">
 <li>Train MC-LSTM and CudaLSTM on CAMELS-US historical period (1980–2010)</li>
 <li>Apply CMIP6 delta-change anomalies (<span class="math inline">\(\Delta P\)</span>, <span class="math inline">\(\Delta T\)</span>) to historical forcings</li>
-<li>Compare projected streamflow: water balance closure error, distributional divergence from physically plausible range</li>
+<li>Compare closure error and projection stability</li>
 </ol>
-<p><strong>Expected contribution</strong>: Empirical evidence for whether physics constraints provide a meaningful safety margin in climate extrapolation — informing model selection for impact studies.</p>
+<p><strong>Contribution</strong>: Quantify whether physics constraints increase reliability under climate perturbation.</p>
 </section>
 <section id="rq-3-transfer-learning-to-alpine-basins" class="slide level2" data-section="Research Questions">
 <h2>RQ 3 — Transfer Learning to Alpine Basins</h2>
 <blockquote>
 <p><em>Can a NeuralHydrology model pre-trained on Caravan (6 000+ global basins) transfer effectively to ungauged Bavarian catchments, and which catchment attributes drive transferability?</em></p>
 </blockquote>
-<p><strong>Motivation</strong>: Nearly all neural hydrology benchmarks use CAMELS-US. Alpine basins differ fundamentally: pronounced elevation gradients, glacier influence, distinct soil types, different seasonality. Whether large-sample pre-training generalises across this domain gap is open — with direct relevance for German flood early-warning.</p>
 <p><strong>Method</strong>:</p>
 <ol type="1">
 <li>Pre-train EA-LSTM on full Caravan dataset</li>
 <li>Fine-tune on gauged Bavarian basins (GKD <span class="citation" data-cites="gkd2025">(<a href="#/references" role="doc-biblioref" onclick>(GKD) 2025</a>)</span>); evaluate on held-out basins</li>
-<li>Compare to scratch training; SHAP analysis to identify which static attributes predict transferability</li>
+<li>Compare to scratch training; use SHAP for transfer drivers</li>
 </ol>
 <p><strong>Data</strong>: Caravan <span class="citation" data-cites="kratzert2023caravan">(<a href="#/references" role="doc-biblioref" onclick>Kratzert et al. 2023</a>)</span> · GKD Bayern <span class="citation" data-cites="gkd2025">(<a href="#/references" role="doc-biblioref" onclick>(GKD) 2025</a>)</span> · LfU flood event catalogue <span class="citation" data-cites="lfu2025">(<a href="#/references" role="doc-biblioref" onclick>Umwelt (LfU) 2025</a>)</span></p>
-<p><strong>Expected contribution</strong>: First systematic transfer learning benchmark for Alpine Germany.</p>
+<p><strong>Contribution</strong>: Evaluate practical transferability to Alpine/Bavarian basins.</p>
 </section>
 <section id="summary" class="slide level2" data-section="Research Questions">
 <h2>Summary</h2>

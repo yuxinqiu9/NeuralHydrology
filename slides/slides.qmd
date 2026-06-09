@@ -276,15 +276,13 @@ These three gaps define the research questions for this work.
 
 > *Can replacing the NSE loss with a probabilistic head (GMM / UMAL) improve LSTM performance on extreme high-flow events in snowmelt-dominated catchments?*
 
-**Motivation**: @frame2022 showed that LSTM trained with NSE underestimates flood peaks because normal-flow days dominate the training gradient. Probabilistic heads model the full discharge distribution — rare peaks are no longer averaged away.
-
 **Method**:
 
 1. Train CudaLSTM with standard NSE loss (baseline)
-2. Train with GMM and UMAL heads — both available in NeuralHydrology
-3. Evaluate on peaks-over-threshold (POT) events using peak-weighted NSE and flood quantiles (Q90, Q95, Q99)
+2. Train CudaLSTM with GMM and UMAL heads
+3. Compare performance on POT events and Q90/Q95/Q99
 
-**Expected contribution**: Quantify whether distributional modelling closes the gap between LSTM skill on normal flows and on extreme events, without changing the architecture.
+**Contribution**: Test whether probabilistic outputs improve flood-peak prediction.
 
 ------------------------------------------------------------------------
 
@@ -292,15 +290,13 @@ These three gaps define the research questions for this work.
 
 > *Does MC-LSTM's structural water balance constraint yield more reliable streamflow projections than CudaLSTM under CMIP6 delta-change scenarios (SSP2-4.5 and SSP5-8.5)?*
 
-**Motivation**: Under distributional shift (future precipitation intensities outside training range), unconstrained LSTMs may produce unphysical outputs. MC-LSTM's architectural guarantee prevents this — but the empirical magnitude of the benefit has not been systematically quantified.
-
 **Method**:
 
 1. Train MC-LSTM and CudaLSTM on CAMELS-US historical period (1980–2010)
 2. Apply CMIP6 delta-change anomalies ($\Delta P$, $\Delta T$) to historical forcings
-3. Compare projected streamflow: water balance closure error, distributional divergence from physically plausible range
+3. Compare closure error and projection stability
 
-**Expected contribution**: Empirical evidence for whether physics constraints provide a meaningful safety margin in climate extrapolation — informing model selection for impact studies.
+**Contribution**: Quantify whether physics constraints increase reliability under climate perturbation.
 
 ------------------------------------------------------------------------
 
@@ -308,17 +304,15 @@ These three gaps define the research questions for this work.
 
 > *Can a NeuralHydrology model pre-trained on Caravan (6 000+ global basins) transfer effectively to ungauged Bavarian catchments, and which catchment attributes drive transferability?*
 
-**Motivation**: Nearly all neural hydrology benchmarks use CAMELS-US. Alpine basins differ fundamentally: pronounced elevation gradients, glacier influence, distinct soil types, different seasonality. Whether large-sample pre-training generalises across this domain gap is open — with direct relevance for German flood early-warning.
-
 **Method**:
 
 1. Pre-train EA-LSTM on full Caravan dataset
 2. Fine-tune on gauged Bavarian basins (GKD [@gkd2025]); evaluate on held-out basins
-3. Compare to scratch training; SHAP analysis to identify which static attributes predict transferability
+3. Compare to scratch training; use SHAP for transfer drivers
 
 **Data**: Caravan [@kratzert2023caravan] · GKD Bayern [@gkd2025] · LfU flood event catalogue [@lfu2025]
 
-**Expected contribution**: First systematic transfer learning benchmark for Alpine Germany.
+**Contribution**: Evaluate practical transferability to Alpine/Bavarian basins.
 
 ------------------------------------------------------------------------
 
