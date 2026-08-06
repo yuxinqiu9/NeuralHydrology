@@ -1,0 +1,259 @@
+2026-06-30 15:31:00,533: Logging to C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\output.log initialized.
+2026-06-30 15:31:00,533: ### Folder structure created at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100
+2026-06-30 15:31:00,533: ### Run configurations for rq3_base_global
+2026-06-30 15:31:00,533: experiment_name: rq3_base_global
+2026-06-30 15:31:00,533: train_basin_file: basins_pretrain.txt
+2026-06-30 15:31:00,533: validation_basin_file: basins_pretrain.txt
+2026-06-30 15:31:00,533: test_basin_file: basins_all.txt
+2026-06-30 15:31:00,533: train_start_date: 1999-10-01 00:00:00
+2026-06-30 15:31:00,533: train_end_date: 2008-09-30 00:00:00
+2026-06-30 15:31:00,544: validation_start_date: 1980-10-01 00:00:00
+2026-06-30 15:31:00,544: validation_end_date: 1989-09-30 00:00:00
+2026-06-30 15:31:00,544: test_start_date: 1989-10-01 00:00:00
+2026-06-30 15:31:00,544: test_end_date: 1999-09-30 00:00:00
+2026-06-30 15:31:00,544: device: cpu
+2026-06-30 15:31:00,544: validate_every: 2
+2026-06-30 15:31:00,544: validate_n_random_basins: 8
+2026-06-30 15:31:00,544: metrics: ['NSE', 'KGE']
+2026-06-30 15:31:00,544: model: cudalstm
+2026-06-30 15:31:00,544: head: regression
+2026-06-30 15:31:00,544: output_activation: linear
+2026-06-30 15:31:00,544: hidden_size: 64
+2026-06-30 15:31:00,544: initial_forget_bias: 3
+2026-06-30 15:31:00,544: output_dropout: 0.4
+2026-06-30 15:31:00,544: optimizer: Adam
+2026-06-30 15:31:00,544: loss: NSE
+2026-06-30 15:31:00,544: learning_rate: {0: 0.001, 3: 0.0005}
+2026-06-30 15:31:00,544: batch_size: 256
+2026-06-30 15:31:00,544: epochs: 5
+2026-06-30 15:31:00,544: clip_gradient_norm: 1
+2026-06-30 15:31:00,544: predict_last_n: 1
+2026-06-30 15:31:00,544: seq_length: 365
+2026-06-30 15:31:00,544: num_workers: 0
+2026-06-30 15:31:00,544: log_interval: 5
+2026-06-30 15:31:00,545: log_tensorboard: False
+2026-06-30 15:31:00,545: save_weights_every: 1
+2026-06-30 15:31:00,545: save_validation_results: True
+2026-06-30 15:31:00,545: dataset: camels_us
+2026-06-30 15:31:00,545: data_dir: C:\GitHub\climate-change\NeuralHydrology\data\CAMELS_US
+2026-06-30 15:31:00,545: forcings: ['daymet']
+2026-06-30 15:31:00,545: dynamic_inputs: ['prcp(mm/day)', 'srad(W/m2)', 'tmax(C)', 'tmin(C)', 'vp(Pa)']
+2026-06-30 15:31:00,545: static_attributes: ['elev_mean', 'slope_mean', 'area_gages2', 'frac_forest', 'lai_max', 'lai_diff', 'gvf_max', 'gvf_diff', 'soil_depth_pelletier', 'soil_depth_statsgo', 'soil_porosity', 'soil_conductivity', 'max_water_content', 'sand_frac', 'silt_frac', 'clay_frac', 'carbonate_rocks_frac', 'geol_permeability', 'p_mean', 'pet_mean', 'aridity', 'frac_snow', 'high_prec_freq', 'high_prec_dur', 'low_prec_freq', 'low_prec_dur']
+2026-06-30 15:31:00,545: target_variables: ['QObs(mm/d)']
+2026-06-30 15:31:00,545: clip_targets_to_zero: ['QObs(mm/d)']
+2026-06-30 15:31:00,545: number_of_basins: 7
+2026-06-30 15:31:00,545: run_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100
+2026-06-30 15:31:00,545: train_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\train_data
+2026-06-30 15:31:00,545: img_log_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\img_log
+2026-06-30 15:31:00,547: ### Device cpu will be used for training
+2026-06-30 15:31:00,578: Loading basin data into xarray data set.
+2026-06-30 15:31:01,179: Calculating target variable stds per basin
+2026-06-30 15:31:01,188: Create lookup table and convert to pytorch tensor
+2026-06-30 15:31:19,706: Epoch 1 average loss: avg_loss: 0.06620, avg_total_loss: 0.06620
+2026-06-30 15:31:35,460: Epoch 2 average loss: avg_loss: 0.04988, avg_total_loss: 0.04988
+2026-06-30 15:31:39,986: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\validation\model_epoch002\validation_metrics.csv
+2026-06-30 15:31:39,988: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\validation\model_epoch002\validation_results.p
+2026-06-30 15:31:39,988: Epoch 2 average validation loss: 0.04360 -- Median validation metrics: avg_loss: 0.04360, NSE: 0.33370, KGE: 0.36661
+2026-06-30 15:31:39,988: Setting learning rate to 0.0005
+2026-06-30 15:31:55,713: Epoch 3 average loss: avg_loss: 0.04182, avg_total_loss: 0.04182
+2026-06-30 15:32:11,515: Epoch 4 average loss: avg_loss: 0.03785, avg_total_loss: 0.03785
+2026-06-30 15:32:14,850: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\validation\model_epoch004\validation_metrics.csv
+2026-06-30 15:32:14,852: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\validation\model_epoch004\validation_results.p
+2026-06-30 15:32:14,852: Epoch 4 average validation loss: 0.03737 -- Median validation metrics: avg_loss: 0.03737, NSE: 0.45657, KGE: 0.46234
+2026-06-30 15:32:30,795: Epoch 5 average loss: avg_loss: 0.03494, avg_total_loss: 0.03494
+2026-06-30 15:32:30,811: Logging to C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\output.log initialized.
+2026-06-30 15:32:30,812: ### Folder structure created at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230
+2026-06-30 15:32:30,812: ### Run configurations for rq3_scratch_local
+2026-06-30 15:32:30,812: experiment_name: rq3_scratch_local
+2026-06-30 15:32:30,812: train_basin_file: basins_finetune.txt
+2026-06-30 15:32:30,812: validation_basin_file: basins_finetune.txt
+2026-06-30 15:32:30,812: test_basin_file: basins_finetune.txt
+2026-06-30 15:32:30,812: train_start_date: 1999-10-01 00:00:00
+2026-06-30 15:32:30,812: train_end_date: 2008-09-30 00:00:00
+2026-06-30 15:32:30,812: validation_start_date: 1980-10-01 00:00:00
+2026-06-30 15:32:30,812: validation_end_date: 1989-09-30 00:00:00
+2026-06-30 15:32:30,812: test_start_date: 1989-10-01 00:00:00
+2026-06-30 15:32:30,812: test_end_date: 1999-09-30 00:00:00
+2026-06-30 15:32:30,812: device: cpu
+2026-06-30 15:32:30,812: validate_every: 5
+2026-06-30 15:32:30,812: validate_n_random_basins: 1
+2026-06-30 15:32:30,812: metrics: ['NSE', 'KGE']
+2026-06-30 15:32:30,812: model: cudalstm
+2026-06-30 15:32:30,812: head: regression
+2026-06-30 15:32:30,812: output_activation: linear
+2026-06-30 15:32:30,813: hidden_size: 64
+2026-06-30 15:32:30,813: initial_forget_bias: 3
+2026-06-30 15:32:30,813: output_dropout: 0.4
+2026-06-30 15:32:30,813: optimizer: Adam
+2026-06-30 15:32:30,813: loss: NSE
+2026-06-30 15:32:30,813: learning_rate: {0: 0.001, 15: 0.0005, 25: 0.0001}
+2026-06-30 15:32:30,813: batch_size: 256
+2026-06-30 15:32:30,813: epochs: 30
+2026-06-30 15:32:30,813: clip_gradient_norm: 1
+2026-06-30 15:32:30,813: predict_last_n: 1
+2026-06-30 15:32:30,813: seq_length: 365
+2026-06-30 15:32:30,813: num_workers: 0
+2026-06-30 15:32:30,813: log_interval: 5
+2026-06-30 15:32:30,813: log_tensorboard: False
+2026-06-30 15:32:30,813: save_weights_every: 1
+2026-06-30 15:32:30,813: save_validation_results: True
+2026-06-30 15:32:30,813: dataset: camels_us
+2026-06-30 15:32:30,813: data_dir: C:\GitHub\climate-change\NeuralHydrology\data\CAMELS_US
+2026-06-30 15:32:30,813: forcings: ['daymet']
+2026-06-30 15:32:30,813: dynamic_inputs: ['prcp(mm/day)', 'srad(W/m2)', 'tmax(C)', 'tmin(C)', 'vp(Pa)']
+2026-06-30 15:32:30,813: static_attributes: []
+2026-06-30 15:32:30,813: target_variables: ['QObs(mm/d)']
+2026-06-30 15:32:30,813: clip_targets_to_zero: ['QObs(mm/d)']
+2026-06-30 15:32:30,814: number_of_basins: 1
+2026-06-30 15:32:30,814: run_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230
+2026-06-30 15:32:30,814: train_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\train_data
+2026-06-30 15:32:30,814: img_log_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\img_log
+2026-06-30 15:32:30,816: ### Device cpu will be used for training
+2026-06-30 15:32:30,816: Loading basin data into xarray data set.
+2026-06-30 15:32:30,917: Calculating target variable stds per basin
+2026-06-30 15:32:30,926: Create lookup table and convert to pytorch tensor
+2026-06-30 15:32:33,236: Epoch 1 average loss: avg_loss: 0.12312, avg_total_loss: 0.12312
+2026-06-30 15:32:35,315: Epoch 2 average loss: avg_loss: 0.11080, avg_total_loss: 0.11080
+2026-06-30 15:32:37,502: Epoch 3 average loss: avg_loss: 0.11151, avg_total_loss: 0.11151
+2026-06-30 15:32:39,648: Epoch 4 average loss: avg_loss: 0.10398, avg_total_loss: 0.10398
+2026-06-30 15:32:41,768: Epoch 5 average loss: avg_loss: 0.09730, avg_total_loss: 0.09730
+2026-06-30 15:32:42,268: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch005\validation_metrics.csv
+2026-06-30 15:32:42,268: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch005\validation_results.p
+2026-06-30 15:32:42,268: Epoch 5 average validation loss: 0.09855 -- Median validation metrics: avg_loss: 0.09855, NSE: 0.29007, KGE: 0.29160
+2026-06-30 15:32:44,586: Epoch 6 average loss: avg_loss: 0.08927, avg_total_loss: 0.08927
+2026-06-30 15:32:46,711: Epoch 7 average loss: avg_loss: 0.08139, avg_total_loss: 0.08139
+2026-06-30 15:32:48,920: Epoch 8 average loss: avg_loss: 0.07519, avg_total_loss: 0.07519
+2026-06-30 15:32:51,052: Epoch 9 average loss: avg_loss: 0.06957, avg_total_loss: 0.06957
+2026-06-30 15:32:53,154: Epoch 10 average loss: avg_loss: 0.06875, avg_total_loss: 0.06875
+2026-06-30 15:32:53,607: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch010\validation_metrics.csv
+2026-06-30 15:32:53,608: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch010\validation_results.p
+2026-06-30 15:32:53,608: Epoch 10 average validation loss: 0.07203 -- Median validation metrics: avg_loss: 0.07203, NSE: 0.47420, KGE: 0.50233
+2026-06-30 15:32:55,782: Epoch 11 average loss: avg_loss: 0.06317, avg_total_loss: 0.06317
+2026-06-30 15:32:57,941: Epoch 12 average loss: avg_loss: 0.06182, avg_total_loss: 0.06182
+2026-06-30 15:33:00,237: Epoch 13 average loss: avg_loss: 0.05830, avg_total_loss: 0.05830
+2026-06-30 15:33:02,393: Epoch 14 average loss: avg_loss: 0.05389, avg_total_loss: 0.05389
+2026-06-30 15:33:02,406: Setting learning rate to 0.0005
+2026-06-30 15:33:04,562: Epoch 15 average loss: avg_loss: 0.04927, avg_total_loss: 0.04927
+2026-06-30 15:33:04,970: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch015\validation_metrics.csv
+2026-06-30 15:33:04,970: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch015\validation_results.p
+2026-06-30 15:33:04,970: Epoch 15 average validation loss: 0.06053 -- Median validation metrics: avg_loss: 0.06053, NSE: 0.55982, KGE: 0.59832
+2026-06-30 15:33:07,294: Epoch 16 average loss: avg_loss: 0.04852, avg_total_loss: 0.04852
+2026-06-30 15:33:09,640: Epoch 17 average loss: avg_loss: 0.04751, avg_total_loss: 0.04751
+2026-06-30 15:33:11,791: Epoch 18 average loss: avg_loss: 0.04594, avg_total_loss: 0.04594
+2026-06-30 15:33:14,020: Epoch 19 average loss: avg_loss: 0.04429, avg_total_loss: 0.04429
+2026-06-30 15:33:16,201: Epoch 20 average loss: avg_loss: 0.04339, avg_total_loss: 0.04339
+2026-06-30 15:33:16,698: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch020\validation_metrics.csv
+2026-06-30 15:33:16,699: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch020\validation_results.p
+2026-06-30 15:33:16,700: Epoch 20 average validation loss: 0.05459 -- Median validation metrics: avg_loss: 0.05459, NSE: 0.60019, KGE: 0.63417
+2026-06-30 15:33:18,903: Epoch 21 average loss: avg_loss: 0.04214, avg_total_loss: 0.04214
+2026-06-30 15:33:21,069: Epoch 22 average loss: avg_loss: 0.04035, avg_total_loss: 0.04035
+2026-06-30 15:33:23,220: Epoch 23 average loss: avg_loss: 0.03781, avg_total_loss: 0.03781
+2026-06-30 15:33:25,399: Epoch 24 average loss: avg_loss: 0.03698, avg_total_loss: 0.03698
+2026-06-30 15:33:25,403: Setting learning rate to 0.0001
+2026-06-30 15:33:27,583: Epoch 25 average loss: avg_loss: 0.03588, avg_total_loss: 0.03588
+2026-06-30 15:33:27,956: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch025\validation_metrics.csv
+2026-06-30 15:33:27,957: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch025\validation_results.p
+2026-06-30 15:33:27,957: Epoch 25 average validation loss: 0.05196 -- Median validation metrics: avg_loss: 0.05196, NSE: 0.61439, KGE: 0.67808
+2026-06-30 15:33:30,167: Epoch 26 average loss: avg_loss: 0.03538, avg_total_loss: 0.03538
+2026-06-30 15:33:32,340: Epoch 27 average loss: avg_loss: 0.03562, avg_total_loss: 0.03562
+2026-06-30 15:33:34,512: Epoch 28 average loss: avg_loss: 0.03514, avg_total_loss: 0.03514
+2026-06-30 15:33:36,696: Epoch 29 average loss: avg_loss: 0.03577, avg_total_loss: 0.03577
+2026-06-30 15:33:38,858: Epoch 30 average loss: avg_loss: 0.03510, avg_total_loss: 0.03510
+2026-06-30 15:33:39,275: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch030\validation_metrics.csv
+2026-06-30 15:33:39,276: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\validation\model_epoch030\validation_results.p
+2026-06-30 15:33:39,276: Epoch 30 average validation loss: 0.05201 -- Median validation metrics: avg_loss: 0.05201, NSE: 0.61335, KGE: 0.67717
+2026-06-30 15:33:39,325: Logging to C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\output.log initialized.
+2026-06-30 15:33:39,325: ### Folder structure created at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339
+2026-06-30 15:33:39,325: ### Start finetuning with pretrained model stored in C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100
+2026-06-30 15:33:39,325: ### Run configurations for rq3_finetuned
+2026-06-30 15:33:39,325: batch_size: 256
+2026-06-30 15:33:39,325: clip_gradient_norm: 1
+2026-06-30 15:33:39,325: clip_targets_to_zero: ['QObs(mm/d)']
+2026-06-30 15:33:39,325: commit_hash: None
+2026-06-30 15:33:39,325: data_dir: C:\GitHub\climate-change\NeuralHydrology\data\CAMELS_US
+2026-06-30 15:33:39,325: dataset: camels_us
+2026-06-30 15:33:39,326: device: cpu
+2026-06-30 15:33:39,326: dynamic_inputs: ['prcp(mm/day)', 'srad(W/m2)', 'tmax(C)', 'tmin(C)', 'vp(Pa)']
+2026-06-30 15:33:39,326: epochs: 10
+2026-06-30 15:33:39,326: experiment_name: rq3_finetuned
+2026-06-30 15:33:39,326: forcings: ['daymet']
+2026-06-30 15:33:39,326: head: regression
+2026-06-30 15:33:39,326: hidden_size: 64
+2026-06-30 15:33:39,326: img_log_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\img_log
+2026-06-30 15:33:39,326: initial_forget_bias: 3
+2026-06-30 15:33:39,326: learning_rate: {0: 0.0005, 2: 5e-05}
+2026-06-30 15:33:39,326: log_interval: 5
+2026-06-30 15:33:39,326: log_tensorboard: False
+2026-06-30 15:33:39,326: loss: NSE
+2026-06-30 15:33:39,326: metrics: ['NSE', 'KGE']
+2026-06-30 15:33:39,326: model: cudalstm
+2026-06-30 15:33:39,326: num_workers: 0
+2026-06-30 15:33:39,326: number_of_basins: 1
+2026-06-30 15:33:39,327: optimizer: Adam
+2026-06-30 15:33:39,327: output_activation: linear
+2026-06-30 15:33:39,327: output_dropout: 0.4
+2026-06-30 15:33:39,327: package_version: 1.13.0
+2026-06-30 15:33:39,327: predict_last_n: 1
+2026-06-30 15:33:39,327: run_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339
+2026-06-30 15:33:39,327: save_validation_results: True
+2026-06-30 15:33:39,327: save_weights_every: 1
+2026-06-30 15:33:39,327: seed: 264861
+2026-06-30 15:33:39,327: seq_length: 365
+2026-06-30 15:33:39,327: static_attributes: ['elev_mean', 'slope_mean', 'area_gages2', 'frac_forest', 'lai_max', 'lai_diff', 'gvf_max', 'gvf_diff', 'soil_depth_pelletier', 'soil_depth_statsgo', 'soil_porosity', 'soil_conductivity', 'max_water_content', 'sand_frac', 'silt_frac', 'clay_frac', 'carbonate_rocks_frac', 'geol_permeability', 'p_mean', 'pet_mean', 'aridity', 'frac_snow', 'high_prec_freq', 'high_prec_dur', 'low_prec_freq', 'low_prec_dur']
+2026-06-30 15:33:39,327: target_variables: ['QObs(mm/d)']
+2026-06-30 15:33:39,327: test_basin_file: basins_finetune.txt
+2026-06-30 15:33:39,327: test_end_date: 1999-09-30 00:00:00
+2026-06-30 15:33:39,328: test_start_date: 1989-10-01 00:00:00
+2026-06-30 15:33:39,328: train_basin_file: basins_finetune.txt
+2026-06-30 15:33:39,328: train_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\train_data
+2026-06-30 15:33:39,328: train_end_date: 2008-09-30 00:00:00
+2026-06-30 15:33:39,328: train_start_date: 1999-10-01 00:00:00
+2026-06-30 15:33:39,328: validate_every: 2
+2026-06-30 15:33:39,328: validate_n_random_basins: 8
+2026-06-30 15:33:39,328: validation_basin_file: basins_finetune.txt
+2026-06-30 15:33:39,328: validation_end_date: 1989-09-30 00:00:00
+2026-06-30 15:33:39,328: validation_start_date: 1980-10-01 00:00:00
+2026-06-30 15:33:39,328: finetune_modules: ['head', 'lstm']
+2026-06-30 15:33:39,328: base_run_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100
+2026-06-30 15:33:39,328: is_finetuning: True
+2026-06-30 15:33:39,329: is_continue_training: False
+2026-06-30 15:33:39,331: ### Device cpu will be used for training
+2026-06-30 15:33:39,382: Loading basin data into xarray data set.
+2026-06-30 15:33:39,490: Calculating target variable stds per basin
+2026-06-30 15:33:39,491: Create lookup table and convert to pytorch tensor
+2026-06-30 15:33:39,507: Starting training from checkpoint C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\model_epoch005.pt
+2026-06-30 15:33:41,869: Epoch 1 average loss: avg_loss: 0.03543, avg_total_loss: 0.03543
+2026-06-30 15:33:41,869: Setting learning rate to 5e-05
+2026-06-30 15:33:44,163: Epoch 2 average loss: avg_loss: 0.03022, avg_total_loss: 0.03022
+2026-06-30 15:33:44,778: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\validation\model_epoch002\validation_metrics.csv
+2026-06-30 15:33:44,779: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\validation\model_epoch002\validation_results.p
+2026-06-30 15:33:44,779: Epoch 2 average validation loss: 0.02671 -- Median validation metrics: avg_loss: 0.02671, NSE: 0.64132, KGE: 0.65884
+2026-06-30 15:33:47,123: Epoch 3 average loss: avg_loss: 0.02828, avg_total_loss: 0.02828
+2026-06-30 15:33:49,450: Epoch 4 average loss: avg_loss: 0.02809, avg_total_loss: 0.02809
+2026-06-30 15:33:49,939: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\validation\model_epoch004\validation_metrics.csv
+2026-06-30 15:33:49,940: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\validation\model_epoch004\validation_results.p
+2026-06-30 15:33:49,941: Epoch 4 average validation loss: 0.02593 -- Median validation metrics: avg_loss: 0.02593, NSE: 0.65635, KGE: 0.67430
+2026-06-30 15:33:52,297: Epoch 5 average loss: avg_loss: 0.02765, avg_total_loss: 0.02765
+2026-06-30 15:33:54,607: Epoch 6 average loss: avg_loss: 0.02572, avg_total_loss: 0.02572
+2026-06-30 15:33:55,058: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\validation\model_epoch006\validation_metrics.csv
+2026-06-30 15:33:55,059: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\validation\model_epoch006\validation_results.p
+2026-06-30 15:33:55,060: Epoch 6 average validation loss: 0.02517 -- Median validation metrics: avg_loss: 0.02517, NSE: 0.66384, KGE: 0.69280
+2026-06-30 15:33:57,541: Epoch 7 average loss: avg_loss: 0.02513, avg_total_loss: 0.02513
+2026-06-30 15:33:59,858: Epoch 8 average loss: avg_loss: 0.02512, avg_total_loss: 0.02512
+2026-06-30 15:34:00,352: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\validation\model_epoch008\validation_metrics.csv
+2026-06-30 15:34:00,353: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\validation\model_epoch008\validation_results.p
+2026-06-30 15:34:00,353: Epoch 8 average validation loss: 0.02556 -- Median validation metrics: avg_loss: 0.02556, NSE: 0.65951, KGE: 0.69024
+2026-06-30 15:34:02,710: Epoch 9 average loss: avg_loss: 0.02364, avg_total_loss: 0.02364
+2026-06-30 15:34:05,040: Epoch 10 average loss: avg_loss: 0.02433, avg_total_loss: 0.02433
+2026-06-30 15:34:05,485: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\validation\model_epoch010\validation_metrics.csv
+2026-06-30 15:34:05,486: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\validation\model_epoch010\validation_results.p
+2026-06-30 15:34:05,487: Epoch 10 average validation loss: 0.02531 -- Median validation metrics: avg_loss: 0.02531, NSE: 0.66198, KGE: 0.69647
+2026-06-30 15:34:05,535: Using the model weights from C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\model_epoch005.pt
+2026-06-30 15:34:10,611: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\test\model_epoch005\test_metrics.csv
+2026-06-30 15:34:10,614: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_153100\test\model_epoch005\test_results.p
+2026-06-30 15:34:10,645: Using the model weights from C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\model_epoch030.pt
+2026-06-30 15:34:11,361: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\test\model_epoch030\test_metrics.csv
+2026-06-30 15:34:11,361: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_153230\test\model_epoch030\test_results.p
+2026-06-30 15:34:11,401: Using the model weights from C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\model_epoch010.pt
+2026-06-30 15:34:12,036: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\test\model_epoch010\test_metrics.csv
+2026-06-30 15:34:12,037: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_finetuned_3006_153339\test\model_epoch010\test_results.p

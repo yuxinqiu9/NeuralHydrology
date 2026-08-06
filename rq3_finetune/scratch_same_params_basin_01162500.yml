@@ -1,0 +1,67 @@
+# Local from-scratch with SAME training schedule as finetune
+experiment_name: rq3_scratch_basin_01162500
+
+train_basin_file: C:/GitHub/climate-change/NeuralHydrology/rq3_finetune/basin_lists_multibasin/basin_01162500.txt
+validation_basin_file: C:/GitHub/climate-change/NeuralHydrology/rq3_finetune/basin_lists_multibasin/basin_01162500.txt
+test_basin_file: C:/GitHub/climate-change/NeuralHydrology/rq3_finetune/basin_lists_multibasin/basin_01162500.txt
+
+train_start_date: "01/10/1999"
+train_end_date: "30/09/2008"
+validation_start_date: "01/10/1980"
+validation_end_date: "30/09/1989"
+test_start_date: "01/10/1989"
+test_end_date: "30/09/1999"
+
+device: cpu
+
+validate_every: 3
+validate_n_random_basins: 1
+metrics:
+  - NSE
+  - KGE
+
+model: cudalstm
+head: regression
+output_activation: linear
+hidden_size: 64
+initial_forget_bias: 3
+output_dropout: 0.4
+
+optimizer: Adam
+loss: NSE
+learning_rate:
+  0: 5e-4
+  2: 5e-5
+epochs: 10
+batch_size: 256
+clip_gradient_norm: 1
+predict_last_n: 1
+seq_length: 365
+num_workers: 0
+log_interval: 5
+log_tensorboard: false
+save_weights_every: 1
+save_validation_results: true
+
+dataset: camels_us
+data_dir: C:/GitHub/climate-change/NeuralHydrology/data/CAMELS_US
+
+forcings:
+  - daymet
+
+dynamic_inputs:
+  - prcp(mm/day)
+  - srad(W/m2)
+  - tmax(C)
+  - tmin(C)
+  - vp(Pa)
+
+# Must stay empty for single-basin scratch (avoid std=0 normalization failure)
+static_attributes: []
+
+target_variables:
+  - QObs(mm/d)
+
+clip_targets_to_zero:
+  - QObs(mm/d)
+seed: 1001

@@ -10,9 +10,10 @@
   const SECTIONS = [
     "Introduction",
     "Background",
-    "Library",
-    "Case Study",
-    "Research Questions",
+    "Research gap",
+    "Methodology",
+    "Results",
+    "Discussion",
     "References"
   ];
 

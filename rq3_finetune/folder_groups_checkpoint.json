@@ -1,0 +1,161 @@
+{
+  "completed_groups": [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18"
+  ],
+  "current_group": null,
+  "status": "idle",
+  "history": [
+    {
+      "group": "04",
+      "n_basins": 29,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_04_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_04_0107_172149",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_04_0107_173242",
+      "delta_nse_mean": 0.2416008998607767,
+      "delta_kge_mean": 0.2611475722439889
+    },
+    {
+      "group": "05",
+      "n_basins": 35,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_05_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_05_0107_174357",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_05_0107_175631",
+      "delta_nse_mean": 0.2043508461543492,
+      "delta_kge_mean": 0.23178428242140647
+    },
+    {
+      "group": "06",
+      "n_basins": 16,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_06_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_06_0107_180950",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_06_0107_181542",
+      "delta_nse_mean": 0.4537612833082676,
+      "delta_kge_mean": 0.5083544948776074
+    },
+    {
+      "group": "07",
+      "n_basins": 29,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_07_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_07_0107_182150",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_07_0107_183218",
+      "delta_nse_mean": 0.34263155172611104,
+      "delta_kge_mean": 0.3728351706496004
+    },
+    {
+      "group": "08",
+      "n_basins": 7,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_08_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_08_0107_193321",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_08_0107_193606",
+      "delta_nse_mean": 0.4547015598842076,
+      "delta_kge_mean": 0.529217764079468
+    },
+    {
+      "group": "09",
+      "n_basins": 2,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_09_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_09_0107_193855",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_09_0107_193940",
+      "delta_nse_mean": 0.3347329199314118,
+      "delta_kge_mean": 0.43506949064476325
+    },
+    {
+      "group": "10",
+      "n_basins": 49,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_10_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_10_0107_194029",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_10_0107_195752",
+      "delta_nse_mean": 0.30951808666696357,
+      "delta_kge_mean": 0.3605792536692434
+    },
+    {
+      "group": "11",
+      "n_basins": 22,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_11_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_11_0107_201621",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_11_0107_202424",
+      "delta_nse_mean": 0.4257209436459975,
+      "delta_kge_mean": 0.5114294403079984
+    },
+    {
+      "group": "12",
+      "n_basins": 32,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_12_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_12_0107_203252",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_12_0107_204425",
+      "delta_nse_mean": 0.3855697959661484,
+      "delta_kge_mean": 0.43203621023024796
+    },
+    {
+      "group": "13",
+      "n_basins": 7,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_13_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_13_0107_205637",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_13_0107_205916",
+      "delta_nse_mean": 0.27109943117414204,
+      "delta_kge_mean": 0.3898069397992279
+    },
+    {
+      "group": "14",
+      "n_basins": 15,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_14_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_14_0107_210203",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_14_0107_210739",
+      "delta_nse_mean": 0.17809674739837647,
+      "delta_kge_mean": 0.22797576417965063
+    },
+    {
+      "group": "15",
+      "n_basins": 14,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_15_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_15_0107_211335",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_15_0107_211843",
+      "delta_nse_mean": 0.29261700596128193,
+      "delta_kge_mean": 0.31749924480171077
+    },
+    {
+      "group": "16",
+      "n_basins": 5,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_16_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_16_0107_212409",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_16_0107_212601",
+      "delta_nse_mean": 0.43133721351623533,
+      "delta_kge_mean": 0.4441223001807922
+    },
+    {
+      "group": "17",
+      "n_basins": 72,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_17_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_17_0107_212801",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_17_0107_215403",
+      "delta_nse_mean": 0.11502698726124233,
+      "delta_kge_mean": 0.11885002170925112
+    },
+    {
+      "group": "18",
+      "n_basins": 26,
+      "detail_csv": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\results_folder_18_local_vs_finetune.csv",
+      "local_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_scratch_folder_18_0107_222158",
+      "ft_run": "C:\\GitHub\\climate-change\\NeuralHydrology\\rq3_finetune\\runs\\rq3_finetuned_folder_18_0107_223136",
+      "delta_nse_mean": 0.2977501658292917,
+      "delta_kge_mean": 0.32320468372662564
+    }
+  ]
+}

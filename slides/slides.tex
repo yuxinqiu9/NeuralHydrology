@@ -1,0 +1,1001 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\author{}
+\date{}
+\begin{document}
+
+
+\subsection{}\label{section}
+
+\textbf{Neural Hydrology}
+
+Deep Learning for Streamflow Prediction under Climate Change
+
+Author: Yuxin Qiu
+
+Supervisor: Henri Funk
+
+Seminar: Climate Change Statistics
+
+University: LMU Munich
+
+Date: 2026-06-09  ·  Interim Meeting
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Contents}\label{contents}
+
+\begin{itemize}
+\tightlist
+\item
+  Research theory base.
+\item
+  Project question and hypotheses.
+\item
+  Data, model setup, and evaluation criteria.
+\item
+  Group-level empirical results.
+\item
+  Basin-level empirical results.
+\item
+  Robustness checks and interpretation.
+\item
+  Practical guidance, limitations, and next steps.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{What is Neural Hydrology?}\label{what-is-neural-hydrology}
+
+\textbf{Streamflow} is the volume of water flowing through a river
+channel at a given point per unit time --- typically measured in mm/day
+or m³/s. It is the integrated output of the entire catchment:
+precipitation, evaporation, soil infiltration, and groundwater dynamics
+all feed into it (Addor et al. 2017).
+
+\textbf{Rainfall-runoff modelling} is the task of predicting daily
+streamflow \(Q\) from meteorological inputs (precipitation, temperature,
+radiation) --- a long-standing central problem in hydrology (Kratzert et
+al. 2018).
+
+. . .
+
+\textbf{Neural Hydrology} is the application of deep learning to this
+problem. Instead of hand-crafting physical equations, a neural network
+learns the input-to-streamflow mapping directly from data, across
+hundreds of catchments simultaneously.
+
+\subsection{Milestones in Neural
+Hydrology}\label{milestones-in-neural-hydrology}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{2018} --- First successful LSTM rainfall--runoff model,
+  outperforming the calibrated SAC-SMA + Snow17 benchmark (Kratzert et
+  al. 2018)
+\item
+  \textbf{2019} --- EA-LSTM: one model trained on 531 CAMELS basins
+  simultaneously (Kratzert et al. 2019)
+\item
+  \textbf{2021} --- MC-LSTM: mass conservation enforced as a structural
+  guarantee (Hoedt et al. 2021)
+\item
+  \textbf{2022} --- NeuralHydrology released as the first unified
+  open-source deep-learning framework for hydrology (Kratzert et al.
+  2022)
+\item
+  \textbf{2023} --- Caravan: global large-sample hydrology benchmark
+  with 6,830 catchments (Kratzert et al. 2023)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Why Streamflow Prediction
+Matters}\label{why-streamflow-prediction-matters}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Floods} are the most frequent natural disaster --- 57 million
+  people affected in 2022 alone (Centre for Research on the Epidemiology
+  of Disasters (CRED) 2022)
+\item
+  \textbf{Floods} are among the most frequent natural disasters and
+  create large annual human and economic impacts (Centre for Research on
+  the Epidemiology of Disasters (CRED) 2022)
+\item
+  Accurate \textbf{streamflow forecasts} are critical for flood
+  early-warning, reservoir management, and hydropower scheduling
+\item
+  Under \textbf{climate change}, precipitation extremes intensify,
+  seasonal patterns shift, and snowmelt regimes change (IPCC 2021)
+\item
+  Hydrological models must be \textbf{robust to non-stationarity} ---
+  conditions outside the historical training distribution
+\end{itemize}
+
+. . .
+
+\begin{quote}
+Milly et al.~(2008) framed the challenge as \emph{``Stationarity is
+dead: Whither water management?''} (Milly et al. 2008)
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{The Deep Learning
+Breakthrough}\label{the-deep-learning-breakthrough}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/model-comparison-bar-1.pdf}}
+\end{center}
+
+Process-based models (SAC-SMA+Snow-17, and others) require calibrating
+10--40 parameters per catchment --- not scalable to ungauged basins
+(Kratzert et al. 2018). Individual LSTMs were trained separately for
+each of the \textbf{241 basins} with no manual calibration; mean NSE =
+\textbf{0.63} versus SAC-SMA mean NSE = \textbf{0.58} (Kratzert et al.
+2018).
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{LSTM and EA-LSTM}\label{lstm-and-ea-lstm}
+
+The LSTM (Hochreiter and Schmidhuber 1997) maintains a \textbf{cell
+state} \(\mathbf{c}_t\) as hydrological memory:
+
+\[\mathbf{c}_t = \underbrace{\mathbf{f}_t \odot \mathbf{c}_{t-1}}_{\text{long-term memory}} + \underbrace{\mathbf{i}_t \odot \tanh(\mathbf{W}_g [\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_g)}_{\text{new information}} \qquad \mathbf{h}_t = \mathbf{o}_t \odot \tanh(\mathbf{c}_t)\]
+
+Cell state \(\approx\) soil moisture / groundwater · Forget gate
+\(\approx\) drainage · Input gate \(\approx\) infiltration
+
+. . .
+
+\textbf{Entity-Aware LSTM} (Kratzert et al. 2019) --- conditions the
+input gate on static catchment attributes \(\mathbf{x}_s\):
+
+\[\mathbf{i} = \sigma(\mathbf{W}_i \mathbf{x}_s + \mathbf{b}_i)\]
+
+One model trained simultaneously on \textbf{531 CAMELS-US basins}:
+median NSE \textbf{0.72} --- outperforming the best calibrated process
+model (SAC-SMA, NSE 0.58) by a wide margin.
+
+The \textbf{Nash-Sutcliffe Efficiency}
+\(\text{NSE} = 1 - \frac{\sum(\hat{q}_t - q_t)^2}{\sum(\bar{q} - q_t)^2}\)
+ranges from \(-\infty\) to 1. In several hydrological studies, NSE
+values above 0.6 are treated as reasonably good, but this remains
+context dependent.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{NeuralHydrology: Python
+Library}\label{neuralhydrology-python-library}
+
+\textbf{NeuralHydrology} (Kratzert et al. 2022) --- open-source PyTorch
+library built for reproducible deep learning in hydrology:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Config-file driven} --- a single \texttt{.yml} file specifies
+  the full experiment; no source code changes between runs
+\item
+  \textbf{Model zoo} --- 15+ architectures: CudaLSTM, EA-LSTM, MC-LSTM,
+  MTS-LSTM, Transformer, Mamba, xLSTM, HybridModel
+\item
+  \textbf{Dataset zoo} --- CAMELS-US/GB/DE/AUS/CL, Caravan
+  (\textgreater6 000 basins globally)
+\item
+  \textbf{Probabilistic heads} --- GMM, CMAL, UMAL for uncertainty
+  quantification
+\item
+  \textbf{Evaluation} --- NSE, KGE, MSE, hydrological signatures
+  built-in
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{uv}\NormalTok{ pip install neuralhydrology}
+\ExtensionTok{nh{-}run}\NormalTok{ train    }\AttributeTok{{-}{-}config{-}file}\NormalTok{ config.yml}
+\ExtensionTok{nh{-}run}\NormalTok{ evaluate }\AttributeTok{{-}{-}run{-}dir}\NormalTok{    runs/my\_run/}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Formal Question and Testable
+Hypotheses}\label{formal-question-and-testable-hypotheses}
+
+\begin{quote}
+Can global pretraining + local fine-tuning outperform local-from-scratch
+training for regional streamflow prediction?
+\end{quote}
+
+\textbf{Question}: Does transfer learning provide stable gains across
+heterogeneous basin groups?
+
+\textbf{H1}: Fine-tune NSE \textgreater{} Local NSE for most groups.
+
+\textbf{H2}: Fine-tune NSE \textgreater{} Global NSE for most groups.
+
+\textbf{Expected ordering}: \[
+    ext{NSE}_{\text{Fine-tune}} > \text{NSE}_{\text{Global}} > \text{NSE}_{\text{Local}}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Why Three-Way Comparison Is
+Necessary}\label{why-three-way-comparison-is-necessary}
+
+\begin{itemize}
+\tightlist
+\item
+  Local baseline answers: how much can target-region data alone learn?
+\item
+  Global baseline answers: how much transfer is possible without
+  adaptation?
+\item
+  Fine-tune model answers: how much additional value comes from
+  adaptation?
+\end{itemize}
+
+Without all three, transfer benefit cannot be separated from model
+capacity.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Experimental Arms and
+Fairness}\label{experimental-arms-and-fairness}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2317}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2195}}
+  >{\centering\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2073}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3415}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Arm
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Initialization
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Train\_on\_Target
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Primary\_Purpose
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Local & Random & Yes & Local baseline \\
+Global & Global pretrained & No & Transfer without adaptation \\
+Global + Fine-tune & Global pretrained & Yes & Transfer with
+adaptation \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Model and Training Setup}\label{model-and-training-setup}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Item & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Architecture & LSTM-based NH setup \\
+Global pretraining scope & 531 CAMELS-US basins \\
+Groups & 18 Daymet-based groups \\
+Random seed & 1001 \\
+Evaluation metrics & NSE (primary), KGE (support) \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Data and Result Files
+Used}\label{data-and-result-files-used}
+
+\begin{itemize}
+\tightlist
+\item
+  Group summary:
+  ../rq3\_finetune/results\_folder\_groups\_summary\_with\_global\_true.csv
+\item
+  Basin-level detail:
+  ../rq3\_finetune/results\_folder\_groups\_all\_basins.csv
+\item
+  Per-group local vs fine-tune details:
+  results\_folder\_XX\_local\_vs\_finetune.csv
+\item
+  Per-group global evaluation details:
+  results\_folder\_XX\_global\_eval\_true.csv
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Data Preparation for RQ3
+Slides}\label{data-preparation-for-rq3-slides}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Coverage Across Groups}\label{coverage-across-groups}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-coverage-bars-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Group Size Distribution}\label{group-size-distribution}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-group-size-dist-1.pdf}}
+\end{center}
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{Distribution Summary (n=18 groups)}\tabularnewline
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Metric & Value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Min & 2 \\
+Q1 & 14 \\
+Median & 26 \\
+Q3 & 34 \\
+Max & 79 \\
+Mean & 29.6 \\
+SD & 23.4 \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Overall Weighted NSE
+Comparison}\label{overall-weighted-nse-comparison}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-overall-nse-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Overall Weighted KGE
+Comparison}\label{overall-weighted-kge-comparison}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-overall-kge-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Group-Level NSE: Three-Way
+Comparison}\label{group-level-nse-three-way-comparison}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-three-way-by-group-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Group-Level Delta NSE (FT vs Local and FT vs
+Global)}\label{group-level-delta-nse-ft-vs-local-and-ft-vs-global}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-group-delta-nse-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Group-Level Delta KGE (FT vs
+Local)}\label{group-level-delta-kge-ft-vs-local}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-group-delta-kge-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Group-Level Improvement Rate (Within
+Group)}\label{group-level-improvement-rate-within-group}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-improve-rate-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Local Baseline vs Fine-Tuned Performance (Group
+Means)}\label{local-baseline-vs-fine-tuned-performance-group-means}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-scatter-local-ft-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Global Baseline vs Fine-Tuned Performance (Group
+Means)}\label{global-baseline-vs-fine-tuned-performance-group-means}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-scatter-global-ft-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Basin-Level NSE
+Distribution}\label{basin-level-nse-distribution}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-basin-boxplot-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Basin-Level Delta NSE
+Distribution}\label{basin-level-delta-nse-distribution}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-basin-delta-hist-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Basin-Level ECDF of NSE}\label{basin-level-ecdf-of-nse}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-basin-ecdf-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Top Basin Improvements
+(NSE)}\label{top-basin-improvements-nse}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}llcccc@{}}
+\toprule\noalign{}
+& basin & group & local\_nse & ft\_nse & delta\_nse \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+428 & 9510200 & 15 & 0.122 & 0.765 & 0.643 \\
+346 & 7145700 & 11 & 0.107 & 0.729 & 0.622 \\
+363 & 8023080 & 12 & 0.206 & 0.814 & 0.608 \\
+429 & 9512280 & 15 & 0.090 & 0.691 & 0.601 \\
+334 & 6910800 & 10 & 0.205 & 0.804 & 0.599 \\
+379 & 8164300 & 12 & 0.219 & 0.816 & 0.597 \\
+335 & 6911900 & 10 & 0.181 & 0.769 & 0.589 \\
+513 & 11151300 & 18 & 0.314 & 0.888 & 0.574 \\
+434 & 10336660 & 16 & 0.146 & 0.717 & 0.571 \\
+433 & 10336645 & 16 & 0.277 & 0.847 & 0.570 \\
+355 & 7263295 & 11 & 0.218 & 0.787 & 0.569 \\
+242 & 3463300 & 06 & 0.160 & 0.726 & 0.566 \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Basins with Negative Delta
+NSE}\label{basins-with-negative-delta-nse}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}llcccc@{}}
+\toprule\noalign{}
+& basin & group & local\_nse & ft\_nse & delta\_nse \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+421 & 9484600 & 15 & 0.163 & -0.400 & -0.562 \\
+464 & 12383500 & 17 & 0.604 & 0.342 & -0.262 \\
+369 & 8082700 & 12 & 0.136 & -0.063 & -0.199 \\
+463 & 12381400 & 17 & 0.712 & 0.571 & -0.141 \\
+95 & 2046000 & 03 & 0.661 & 0.536 & -0.125 \\
+443 & 12048000 & 17 & 0.232 & 0.138 & -0.094 \\
+509 & 11124500 & 18 & 0.569 & 0.479 & -0.090 \\
+306 & 6409000 & 10 & 0.125 & 0.075 & -0.050 \\
+461 & 12375900 & 17 & 0.799 & 0.762 & -0.037 \\
+43 & 1484100 & 02 & 0.603 & 0.567 & -0.037 \\
+117 & 2112360 & 03 & 0.541 & 0.506 & -0.035 \\
+465 & 12390700 & 17 & 0.656 & 0.634 & -0.023 \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Sample Size vs Transfer
+Gain}\label{sample-size-vs-transfer-gain}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-size-vs-gain-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Local Baseline Quality vs Transfer
+Gain}\label{local-baseline-quality-vs-transfer-gain}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-local-vs-gain-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Global Baseline Quality vs FT-over-Global
+Gain}\label{global-baseline-quality-vs-ft-over-global-gain}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{slides_files/figure-pdf/rq3-global-vs-gain-1.pdf}}
+\end{center}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Group Ranking Table (NSE)}\label{group-ranking-table-nse}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0265}}
+  >{\centering\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0619}}
+  >{\centering\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0885}}
+  >{\centering\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1416}}
+  >{\centering\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1504}}
+  >{\centering\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1150}}
+  >{\centering\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.2035}}
+  >{\centering\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.2124}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+group
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+n\_basins
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+local\_nse\_mean
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+global\_nse\_mean
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+ft\_nse\_mean
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+delta\_ft\_vs\_local\_nse
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+delta\_ft\_vs\_global\_nse
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+14 & 14 & 15 & 0.655 & 0.803 & 0.834 & 0.178 & 0.030 \\
+17 & 17 & 72 & 0.680 & 0.772 & 0.795 & 0.115 & 0.023 \\
+16 & 16 & 5 & 0.353 & 0.778 & 0.785 & 0.431 & 0.007 \\
+1 & 01 & 25 & 0.520 & 0.725 & 0.769 & 0.249 & 0.044 \\
+6 & 06 & 16 & 0.315 & 0.732 & 0.768 & 0.454 & 0.037 \\
+18 & 18 & 26 & 0.469 & 0.740 & 0.766 & 0.298 & 0.026 \\
+5 & 05 & 35 & 0.527 & 0.704 & 0.731 & 0.204 & 0.027 \\
+13 & 13 & 7 & 0.453 & 0.625 & 0.724 & 0.271 & 0.099 \\
+3 & 03 & 79 & 0.544 & 0.672 & 0.705 & 0.161 & 0.034 \\
+4 & 04 & 29 & 0.464 & 0.663 & 0.705 & 0.242 & 0.042 \\
+7 & 07 & 29 & 0.346 & 0.640 & 0.688 & 0.343 & 0.049 \\
+2 & 02 & 69 & 0.549 & 0.673 & 0.684 & 0.135 & 0.011 \\
+8 & 08 & 7 & 0.193 & 0.617 & 0.647 & 0.455 & 0.030 \\
+11 & 11 & 22 & 0.189 & 0.564 & 0.615 & 0.426 & 0.051 \\
+10 & 10 & 49 & 0.302 & 0.559 & 0.612 & 0.310 & 0.052 \\
+12 & 12 & 32 & 0.201 & 0.560 & 0.586 & 0.386 & 0.027 \\
+15 & 15 & 14 & 0.183 & 0.392 & 0.476 & 0.293 & 0.084 \\
+9 & 09 & 2 & 0.077 & 0.312 & 0.412 & 0.335 & 0.100 \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Synthesis: What the Results
+Say}\label{synthesis-what-the-results-say}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  FT \textgreater{} Local is universal at group level (18/18 groups).
+\item
+  FT \textgreater{} Global is also universal at group level (18/18
+  groups).
+\item
+  Basin-level distributions show broad positive shift, not isolated
+  outliers.
+\item
+  Transfer gains are strongest in lower-data or lower-baseline groups.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Practical Implications for
+Deployment}\label{practical-implications-for-deployment}
+
+\begin{itemize}
+\tightlist
+\item
+  For new target regions with limited labels, start from a global model.
+\item
+  Use local fine-tuning instead of local-from-scratch as default.
+\item
+  Keep global-only evaluation as a diagnostic baseline.
+\item
+  Monitor groups with weak gains for feature or split-quality issues.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Limitations of Current RQ3
+Study}\label{limitations-of-current-rq3-study}
+
+\begin{itemize}
+\tightlist
+\item
+  Single random seed (1001) in current report.
+\item
+  Limited global pretraining budget.
+\item
+  Metrics centered on NSE/KGE; signature-based diagnostics not yet
+  added.
+\item
+  No SHAP attribution in this version.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Next Steps (Already
+Planned)}\label{next-steps-already-planned}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Multi-seed reruns with confidence intervals.
+\item
+  Longer global pretraining budget for stronger base weights.
+\item
+  SHAP-based transferability driver analysis.
+\item
+  Error decomposition by flow regime and event intensity.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Project Conclusion (RQ3)}\label{project-conclusion-rq3}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  This seminar project now provides a complete answer to RQ3.
+\item
+  Across 18 groups and 533 basins, \textbf{global + fine-tune}
+  consistently outperforms local-from-scratch.
+\item
+  The transfer-learning strategy is therefore empirically supported and
+  practically actionable.
+\end{enumerate}
+
+. . .
+
+\begin{quote}
+Fine-tuning a global hydrological model is a robust default strategy for
+regional prediction under data constraints.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+\protect\phantomsection\label{refs}
+\begin{CSLReferences}{1}{1}
+\bibitem[\citeproctext]{ref-addor2017}
+Addor, Nans, Andrew J. Newman, Naoki Mizukami, and Martyn P. Clark.
+2017. {``The {CAMELS} Data Set: Catchment Attributes and Meteorology for
+Large-Sample Studies.''} \emph{Hydrology and Earth System Sciences} 21
+(10): 5293--313. \url{https://doi.org/10.5194/hess-21-5293-2017}.
+
+\bibitem[\citeproctext]{ref-cred2022}
+Centre for Research on the Epidemiology of Disasters (CRED). 2022.
+\emph{Disasters in Numbers 2022}. CRED.
+\url{https://cred.be/sites/default/files/2022_EMDAT_report.pdf}.
+
+\bibitem[\citeproctext]{ref-hochreiter1997}
+Hochreiter, Sepp, and Juergen Schmidhuber. 1997. {``Long Short-Term
+Memory.''} \emph{Neural Computation} 9 (8): 1735--80.
+\url{https://doi.org/10.1162/neco.1997.9.8.1735}.
+
+\bibitem[\citeproctext]{ref-hoedt2021}
+Hoedt, Pieter-Jan, Frederik Kratzert, Daniel Klotz, et al. 2021.
+{``{MC-LSTM}: Mass-Conserving {LSTM}.''} \emph{Proceedings of the 38th
+International Conference on Machine Learning (ICML)}, 4275--86.
+\url{https://arxiv.org/abs/2101.05186}.
+
+\bibitem[\citeproctext]{ref-ipcc2021}
+IPCC. 2021. {``Global {Carbon} and {Other} {Biogeochemical} {Cycles} and
+{Feedbacks}.''} In \emph{Climate {Change} 2021 -- {The} {Physical}
+{Science} {Basis}: {Working} {Group} {I} {Contribution} to the {Sixth}
+{Assessment} {Report} of the {Intergovernmental} {Panel} on {Climate}
+{Change}}. Cambridge University Press.
+
+\bibitem[\citeproctext]{ref-kratzert2022joss}
+Kratzert, Frederik, Martin Gauch, Grey Nearing, and Daniel Klotz. 2022.
+{``{NeuralHydrology} --- {A} {Python} Library for Deep Learning Research
+in Hydrology.''} \emph{Journal of Open Source Software} 7 (71): 4050.
+\url{https://doi.org/10.21105/joss.04050}.
+
+\bibitem[\citeproctext]{ref-kratzert2018}
+Kratzert, Frederik, Daniel Klotz, Claire Brenner, Karsten Schulz, and
+Mathew Herrnegger. 2018. {``Rainfall--Runoff Modelling Using Long
+Short-Term Memory ({LSTM}) Based Neural Networks.''} \emph{Hydrology and
+Earth System Sciences} 22 (11): 6005--22.
+\url{https://doi.org/10.5194/hess-22-6005-2018}.
+
+\bibitem[\citeproctext]{ref-kratzert2019}
+Kratzert, Frederik, Daniel Klotz, Mathew Herrnegger, Alden K. Sampson,
+Sepp Hochreiter, and Grey S. Nearing. 2019. {``Towards Learning
+Universal, Regional, and Local Hydrological Behaviors via Machine
+Learning Applied to Large-Sample Datasets.''} \emph{Hydrology and Earth
+System Sciences} 23 (12): 5089--110.
+\url{https://doi.org/10.5194/hess-23-5089-2019}.
+
+\bibitem[\citeproctext]{ref-kratzert2023caravan}
+Kratzert, Frederik, Grey Nearing, Jonathan Frame, et al. 2023.
+{``Caravan -- {A} Global Community Dataset for Large-Sample
+Hydrology.''} \emph{Scientific Data} 10 (1): 61.
+\url{https://doi.org/10.1038/s41597-023-01975-w}.
+
+\bibitem[\citeproctext]{ref-milly2008}
+Milly, P. C. D., Julio Betancourt, Malin Falkenmark, et al. 2008.
+{``Stationarity Is Dead: Whither Water Management?''} \emph{Science} 319
+(5863): 573--74. \url{https://doi.org/10.1126/science.1151915}.
+
+\end{CSLReferences}
+
+
+
+
+\end{document}

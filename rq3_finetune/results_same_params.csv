@@ -1,0 +1,3 @@
+﻿"experiment","NSE","KGE","metrics_file"
+"local_same_params","0.240364670753479","0.218795319918008","c:/GitHub/climate-change/runs/rq3_scratch_local_same_0107_092507/test/model_epoch010/test_metrics.csv"
+"finetune_same_params","0.853785932064056","0.875210898959216","c:/GitHub/climate-change/runs/rq3_finetuned_same_0107_092532/test/model_epoch010/test_metrics.csv"

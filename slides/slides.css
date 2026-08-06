@@ -222,6 +222,15 @@
   font-size: var(--h4-size);
 }
 
+/* Keep References + Appendix at citation-like size */
+.reveal .slides section.refs-small,
+.reveal .slides section.refs-small p,
+.reveal .slides section.refs-small li,
+.reveal .slides section.refs-small div,
+.reveal .slides section.refs-small a {
+  font-size: 0.75em !important;
+}
+
 /* =========================
    Custom cover slide (left text, right image)
    ========================= */

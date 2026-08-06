@@ -1,0 +1,19 @@
+# Finetune with SAME training schedule as local scratch baseline
+experiment_name: rq3_finetuned_same_g02
+
+train_basin_file: C:/GitHub/climate-change/NeuralHydrology/rq3_finetune/basins_finetune.txt
+validation_basin_file: C:/GitHub/climate-change/NeuralHydrology/rq3_finetune/basins_finetune.txt
+test_basin_file: C:/GitHub/climate-change/NeuralHydrology/rq3_finetune/basins_finetune.txt
+
+learning_rate:
+  0: 5e-4
+  2: 5e-5
+epochs: 10
+
+finetune_modules:
+  - head
+  - lstm
+
+# base_run_dir injected by runner script
+seed: 1002
+base_run_dir: C:/GitHub/climate-change/runs/rq3_base_global_3006_154109

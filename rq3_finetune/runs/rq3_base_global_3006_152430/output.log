@@ -1,0 +1,145 @@
+2026-06-30 15:24:30,950: Logging to C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_152430\output.log initialized.
+2026-06-30 15:24:30,950: ### Folder structure created at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_152430
+2026-06-30 15:24:30,950: ### Run configurations for rq3_base_global
+2026-06-30 15:24:30,950: experiment_name: rq3_base_global
+2026-06-30 15:24:30,950: train_basin_file: basins_pretrain.txt
+2026-06-30 15:24:30,950: validation_basin_file: basins_pretrain.txt
+2026-06-30 15:24:30,950: test_basin_file: basins_pretrain.txt
+2026-06-30 15:24:30,950: train_start_date: 1999-10-01 00:00:00
+2026-06-30 15:24:30,950: train_end_date: 2008-09-30 00:00:00
+2026-06-30 15:24:30,951: validation_start_date: 1980-10-01 00:00:00
+2026-06-30 15:24:30,951: validation_end_date: 1989-09-30 00:00:00
+2026-06-30 15:24:30,951: test_start_date: 1989-10-01 00:00:00
+2026-06-30 15:24:30,951: test_end_date: 1999-09-30 00:00:00
+2026-06-30 15:24:30,951: device: cpu
+2026-06-30 15:24:30,951: validate_every: 2
+2026-06-30 15:24:30,951: validate_n_random_basins: 8
+2026-06-30 15:24:30,951: metrics: ['NSE', 'KGE']
+2026-06-30 15:24:30,951: model: cudalstm
+2026-06-30 15:24:30,951: head: regression
+2026-06-30 15:24:30,951: output_activation: linear
+2026-06-30 15:24:30,951: hidden_size: 64
+2026-06-30 15:24:30,951: initial_forget_bias: 3
+2026-06-30 15:24:30,951: output_dropout: 0.4
+2026-06-30 15:24:30,951: optimizer: Adam
+2026-06-30 15:24:30,951: loss: NSE
+2026-06-30 15:24:30,951: learning_rate: {0: 0.001, 3: 0.0005}
+2026-06-30 15:24:30,951: batch_size: 256
+2026-06-30 15:24:30,951: epochs: 5
+2026-06-30 15:24:30,951: clip_gradient_norm: 1
+2026-06-30 15:24:30,951: predict_last_n: 1
+2026-06-30 15:24:30,951: seq_length: 365
+2026-06-30 15:24:30,951: num_workers: 0
+2026-06-30 15:24:30,951: log_interval: 5
+2026-06-30 15:24:30,951: log_tensorboard: False
+2026-06-30 15:24:30,952: save_weights_every: 1
+2026-06-30 15:24:30,952: save_validation_results: True
+2026-06-30 15:24:30,952: dataset: camels_us
+2026-06-30 15:24:30,952: data_dir: C:\GitHub\climate-change\NeuralHydrology\data\CAMELS_US
+2026-06-30 15:24:30,952: forcings: ['daymet']
+2026-06-30 15:24:30,952: dynamic_inputs: ['prcp(mm/day)', 'srad(W/m2)', 'tmax(C)', 'tmin(C)', 'vp(Pa)']
+2026-06-30 15:24:30,952: static_attributes: ['elev_mean', 'slope_mean', 'area_gages2', 'frac_forest', 'lai_max', 'lai_diff', 'gvf_max', 'gvf_diff', 'soil_depth_pelletier', 'soil_depth_statsgo', 'soil_porosity', 'soil_conductivity', 'max_water_content', 'sand_frac', 'silt_frac', 'clay_frac', 'carbonate_rocks_frac', 'geol_permeability', 'p_mean', 'pet_mean', 'aridity', 'frac_snow', 'high_prec_freq', 'high_prec_dur', 'low_prec_freq', 'low_prec_dur']
+2026-06-30 15:24:30,952: target_variables: ['QObs(mm/d)']
+2026-06-30 15:24:30,952: clip_targets_to_zero: ['QObs(mm/d)']
+2026-06-30 15:24:30,952: number_of_basins: 7
+2026-06-30 15:24:30,952: run_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_152430
+2026-06-30 15:24:30,952: train_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_152430\train_data
+2026-06-30 15:24:30,952: img_log_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_152430\img_log
+2026-06-30 15:24:31,011: ### Device cpu will be used for training
+2026-06-30 15:24:31,110: Loading basin data into xarray data set.
+2026-06-30 15:24:31,839: Calculating target variable stds per basin
+2026-06-30 15:24:31,848: Create lookup table and convert to pytorch tensor
+2026-06-30 15:24:50,120: Epoch 1 average loss: avg_loss: 0.06019, avg_total_loss: 0.06019
+2026-06-30 15:25:05,275: Epoch 2 average loss: avg_loss: 0.04466, avg_total_loss: 0.04466
+2026-06-30 15:25:09,552: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_152430\validation\model_epoch002\validation_metrics.csv
+2026-06-30 15:25:09,555: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_152430\validation\model_epoch002\validation_results.p
+2026-06-30 15:25:09,556: Epoch 2 average validation loss: 0.04080 -- Median validation metrics: avg_loss: 0.04080, NSE: 0.40720, KGE: 0.40568
+2026-06-30 15:25:09,556: Setting learning rate to 0.0005
+2026-06-30 15:25:25,307: Epoch 3 average loss: avg_loss: 0.03722, avg_total_loss: 0.03722
+2026-06-30 15:25:40,478: Epoch 4 average loss: avg_loss: 0.03400, avg_total_loss: 0.03400
+2026-06-30 15:25:43,762: Stored metrics at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_152430\validation\model_epoch004\validation_metrics.csv
+2026-06-30 15:25:43,764: Stored results at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_base_global_3006_152430\validation\model_epoch004\validation_results.p
+2026-06-30 15:25:43,764: Epoch 4 average validation loss: 0.03672 -- Median validation metrics: avg_loss: 0.03672, NSE: 0.47140, KGE: 0.48485
+2026-06-30 15:25:59,946: Epoch 5 average loss: avg_loss: 0.03138, avg_total_loss: 0.03138
+2026-06-30 15:25:59,969: Logging to C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_152559\output.log initialized.
+2026-06-30 15:25:59,969: ### Folder structure created at C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_152559
+2026-06-30 15:25:59,969: ### Run configurations for rq3_scratch_local
+2026-06-30 15:25:59,969: experiment_name: rq3_scratch_local
+2026-06-30 15:25:59,969: train_basin_file: basins_finetune.txt
+2026-06-30 15:25:59,969: validation_basin_file: basins_finetune.txt
+2026-06-30 15:25:59,969: test_basin_file: basins_finetune.txt
+2026-06-30 15:25:59,969: train_start_date: 1999-10-01 00:00:00
+2026-06-30 15:25:59,969: train_end_date: 2008-09-30 00:00:00
+2026-06-30 15:25:59,969: validation_start_date: 1980-10-01 00:00:00
+2026-06-30 15:25:59,969: validation_end_date: 1989-09-30 00:00:00
+2026-06-30 15:25:59,969: test_start_date: 1989-10-01 00:00:00
+2026-06-30 15:25:59,969: test_end_date: 1999-09-30 00:00:00
+2026-06-30 15:25:59,969: device: cpu
+2026-06-30 15:25:59,969: validate_every: 5
+2026-06-30 15:25:59,969: validate_n_random_basins: 1
+2026-06-30 15:25:59,969: metrics: ['NSE', 'KGE']
+2026-06-30 15:25:59,969: model: cudalstm
+2026-06-30 15:25:59,969: head: regression
+2026-06-30 15:25:59,969: output_activation: linear
+2026-06-30 15:25:59,969: hidden_size: 64
+2026-06-30 15:25:59,969: initial_forget_bias: 3
+2026-06-30 15:25:59,969: output_dropout: 0.4
+2026-06-30 15:25:59,969: optimizer: Adam
+2026-06-30 15:25:59,969: loss: NSE
+2026-06-30 15:25:59,969: learning_rate: {0: 0.001, 15: 0.0005, 25: 0.0001}
+2026-06-30 15:25:59,969: batch_size: 256
+2026-06-30 15:25:59,969: epochs: 30
+2026-06-30 15:25:59,969: clip_gradient_norm: 1
+2026-06-30 15:25:59,969: predict_last_n: 1
+2026-06-30 15:25:59,969: seq_length: 365
+2026-06-30 15:25:59,969: num_workers: 0
+2026-06-30 15:25:59,969: log_interval: 5
+2026-06-30 15:25:59,969: log_tensorboard: False
+2026-06-30 15:25:59,969: save_weights_every: 1
+2026-06-30 15:25:59,969: save_validation_results: True
+2026-06-30 15:25:59,969: dataset: camels_us
+2026-06-30 15:25:59,969: data_dir: C:\GitHub\climate-change\NeuralHydrology\data\CAMELS_US
+2026-06-30 15:25:59,969: forcings: ['daymet']
+2026-06-30 15:25:59,976: dynamic_inputs: ['prcp(mm/day)', 'srad(W/m2)', 'tmax(C)', 'tmin(C)', 'vp(Pa)']
+2026-06-30 15:25:59,976: static_attributes: ['elev_mean', 'slope_mean', 'area_gages2', 'frac_forest', 'lai_max', 'lai_diff', 'gvf_max', 'gvf_diff', 'soil_depth_pelletier', 'soil_depth_statsgo', 'soil_porosity', 'soil_conductivity', 'max_water_content', 'sand_frac', 'silt_frac', 'clay_frac', 'carbonate_rocks_frac', 'geol_permeability', 'p_mean', 'pet_mean', 'aridity', 'frac_snow', 'high_prec_freq', 'high_prec_dur', 'low_prec_freq', 'low_prec_dur']
+2026-06-30 15:25:59,976: target_variables: ['QObs(mm/d)']
+2026-06-30 15:25:59,976: clip_targets_to_zero: ['QObs(mm/d)']
+2026-06-30 15:25:59,976: number_of_basins: 1
+2026-06-30 15:25:59,976: run_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_152559
+2026-06-30 15:25:59,976: train_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_152559\train_data
+2026-06-30 15:25:59,976: img_log_dir: C:\GitHub\climate-change\NeuralHydrology\rq3_finetune\runs\rq3_scratch_local_3006_152559\img_log
+2026-06-30 15:26:00,003: ### Device cpu will be used for training
+2026-06-30 15:26:00,029: Uncaught exception
+Traceback (most recent call last):
+  File "c:\GitHub\climate-change\NeuralHydrology\rq3_finetune\run_rq3.py", line 104, in <module>
+    main()
+  File "c:\GitHub\climate-change\NeuralHydrology\rq3_finetune\run_rq3.py", line 66, in main
+    start_run(config_file=HERE / "scratch.yml")
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\nh_run.py", line 77, in start_run
+    start_training(config)
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\training\train.py", line 19, in start_training
+    trainer.initialize_training()
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\training\basetrainer.py", line 154, in initialize_training
+    ds = self._get_dataset()
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\training\basetrainer.py", line 87, in _get_dataset
+    return get_dataset(cfg=self.cfg, period="train", is_train=True, scaler=self._scaler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\datasetzoo\__init__.py", line 71, in get_dataset
+    return _datasetZooRegistry.instantiate_dataset(cfg, is_train, period, basin, additional_features, id_to_int, scaler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\datasetzoo\datasetregistry.py", line 92, in instantiate_dataset
+    return Dataset(cfg=cfg,
+           ^^^^^^^^^^^^^^^^
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\datasetzoo\camelsus.py", line 60, in __init__
+    super(CamelsUS, self).__init__(cfg=cfg,
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\datasetzoo\basedataset.py", line 142, in __init__
+    self._load_data()
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\datasetzoo\basedataset.py", line 745, in _load_data
+    self._load_combined_attributes()
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\datasetzoo\basedataset.py", line 703, in _load_combined_attributes
+    utils.attributes_sanity_check(df=df)
+  File "C:\GitHub\climate-change\.venv\Lib\site-packages\neuralhydrology\datautils\utils.py", line 174, in attributes_sanity_check
+    raise RuntimeError("".join(msg))
+RuntimeError: The following attributes have a std of zero or NaN, which results in NaN's when normalizing the features. Remove the attributes from the attribute feature list and restart the run. 
+Attributes: ['elev_mean', 'slope_mean', 'area_gages2', 'frac_forest', 'lai_max', 'lai_diff', 'gvf_max', 'gvf_diff', 'soil_depth_pelletier', 'soil_depth_statsgo', 'soil_porosity', 'soil_conductivity', 'max_water_content', 'sand_frac', 'silt_frac', 'clay_frac', 'carbonate_rocks_frac', 'geol_permeability', 'p_mean', 'pet_mean', 'aridity', 'frac_snow', 'high_prec_freq', 'high_prec_dur', 'low_prec_freq', 'low_prec_dur']
