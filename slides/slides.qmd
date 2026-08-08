@@ -10,7 +10,7 @@ format:
     self-contained: true
     include-in-header:
       - nav-include.html
-bibliography: ../gitbook/book.bib
+bibliography: book.bib
 execute:
   echo: false
   warning: false
